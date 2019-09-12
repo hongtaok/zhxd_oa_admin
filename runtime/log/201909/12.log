@@ -167,3 +167,23 @@
 [ 2019-09-12T18:38:30+08:00 ] 127.0.0.1 GET oa_admin.com/admin/apply/report_check_fund/ids/14?dialog=1
 [运行时间：0.090349s] [吞吐率：11.07req/s] [内存消耗：4,875.73kb] [文件加载：140]
 [ error ] [0]模板文件不存在:D:\www\phpstudy_pro\WWW\oa_admin\public/../application/admin\view\apply\report_check_fund.html[D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\library\think\view\driver\Think.php:82]
+---------------------------------------------------------------
+[ 2019-09-12T19:40:46+08:00 ] 127.0.0.1 GET oa_admin.com/admin/apply/reject/ids/14?dialog=1
+[运行时间：0.078110s] [吞吐率：12.80req/s] [内存消耗：4,879.90kb] [文件加载：140]
+[ error ] [0]模板文件不存在:D:\www\phpstudy_pro\WWW\oa_admin\public/../application/admin\view\apply\reject.html[D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\library\think\view\driver\Think.php:82]
+---------------------------------------------------------------
+[ 2019-09-12T19:52:06+08:00 ] 127.0.0.1 POST oa_admin.com/admin/apply/reject/ids/14?dialog=1
+[运行时间：0.070316s] [吞吐率：14.22req/s] [内存消耗：4,863.88kb] [文件加载：142]
+[ error ] [10501]SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect datetime value: '1568289126' for column 'reject_time' at row 1[D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\library\think\db\Connection.php:453]
+---------------------------------------------------------------
+[ 2019-09-12T19:52:21+08:00 ] 127.0.0.1 POST oa_admin.com/admin/apply/reject/ids/14?dialog=1
+[运行时间：0.084454s] [吞吐率：11.84req/s] [内存消耗：4,864.49kb] [文件加载：142]
+[ error ] [10501]SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect datetime value: '1568289141' for column 'reject_time' at row 1[D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\library\think\db\Connection.php:453]
+---------------------------------------------------------------
+[ 2019-09-12T19:53:49+08:00 ] 127.0.0.1 POST oa_admin.com/admin/apply/reject/ids/14?dialog=1
+[运行时间：0.093687s] [吞吐率：10.67req/s] [内存消耗：4,864.49kb] [文件加载：142]
+[ error ] [10501]SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect datetime value: '1568289229' for column 'reject_time' at row 1[D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\library\think\db\Connection.php:453]
+---------------------------------------------------------------
+[ 2019-09-12T19:55:14+08:00 ] 127.0.0.1 POST oa_admin.com/admin/apply/reject/ids/14?dialog=1
+[运行时间：0.091134s] [吞吐率：10.97req/s] [内存消耗：4,864.52kb] [文件加载：142]
+[ error ] [10501]SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect datetime value: '1568289314' for column 'reject_time' at row 1[D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\library\think\db\Connection.php:453]

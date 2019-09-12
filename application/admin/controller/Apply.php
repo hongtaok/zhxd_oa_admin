@@ -219,7 +219,13 @@ class Apply extends Backend
         return $this->view->fetch();
     }
 
-
+    /**
+     * 客户经理上传尽调文件 并给出初始额度
+     * @param $ids
+     * @return string
+     * @throws \think\Exception
+     * @throws \think\exception\DbException
+     */
     public function report_check_fund($ids)
     {
         $row = $this->model->get($ids);
@@ -243,6 +249,55 @@ class Apply extends Backend
             $row->report_fund_time = date('Y-m-d H:i:s', time());
             $row->save();
             $this->success('操作成功', '');
+        }
+
+        $this->view->assign('row', $row);
+        return $this->view->fetch();
+    }
+
+    public function reject($ids = null)
+    {
+        $row = $this->model->get($ids);
+
+        if ($this->request->isPost()) {
+            $params = $this->request->request('row/a');
+
+            $validate = new Validate([
+                'reject_reason' => 'require',
+            ], [
+                'reject_reason.require' => '请填写驳回理由',
+            ]);
+            if (!$validate->check($params)) {
+                $this->error($validate->getError());
+            }
+
+            Db::startTrans();
+            try {
+                // apply 修改 status 状态为 2（审核拒绝）
+                $row->status = 2;
+                $row->reject_admin_id = $this->auth->id;
+                $row->reject_reason = $params['reject_reason'];
+                $row->reject_time = date('Y-m-d H:i:s', time());
+                $row->save();
+
+                // apply_reject_log 表插入记录: id apply_id admin_id reject_reason reject_time
+                $apply_reject_log = new \app\admin\model\ApplyRejectLog();
+                $apply_reject_log->apply_id = $ids;
+                $apply_reject_log->admin_id = $this->auth->id;
+                $apply_reject_log->reject_reason = $params['reject_reason'];
+                $apply_reject_log->reject_time = date('Y-m-d H:i:s', time());
+                
+                $result = $apply_reject_log->save();
+
+            } catch (Exception $e) {
+                Db::rollback();
+                $this->error($e->getMessage());
+            }
+            if ($result !== false) {
+                $this->success();
+            } else {
+                $this->error(__('No rows were updated'));
+            }
         }
 
         $this->view->assign('row', $row);

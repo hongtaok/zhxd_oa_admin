@@ -99,10 +99,13 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
         upload_evidence: function () {
             Controller.api.bindevent();
         },
-        allot: function() {
+        allot: function () {
             Controller.api.bindevent();
         },
-        report_check_fund: function() {
+        report_check_fund: function () {
+            Controller.api.bindevent();
+        },
+        reject: function () {
             Controller.api.bindevent();
         },
         api: {
