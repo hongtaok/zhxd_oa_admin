@@ -1,0 +1,105 @@
+---------------------------------------------------------------
+[ 2019-09-05T09:26:19+08:00 ] 127.0.0.1 GET oa_admin.com/api/order/apply?code=081ZTfFL0Y5ek82x6DDL0EE5FL0ZTfF4&product_id=1&city=%E5%A4%AA%E5%8E%9F&username=%E5%88%98%E8%B4%B5%E9%BE%99&mobile=13653668463&id_number=14232519901218559X
+[运行时间：0.319630s] [吞吐率：3.13req/s] [内存消耗：3,589.90kb] [文件加载：129]
+[ error ] [123]123[D:\www\phpstudy_pro\WWW\oa_admin\application\api\common.php:12]
+---------------------------------------------------------------
+[ 2019-09-05T09:37:09+08:00 ] 127.0.0.1 GET oa_admin.com/api/order/apply?code=071B0qTe06i1kt1bfJPe0OQATe0B0qTP&product_id=1&city=%E5%A4%AA%E5%8E%9F&username=%E5%88%98%E8%B4%B5%E9%BE%99&mobile=13653668463&id_number=14232519901218559X
+[运行时间：0.266885s] [吞吐率：3.75req/s] [内存消耗：3,760.91kb] [文件加载：129]
+[ error ] [0]method not exist:think\db\Query->get[D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\library\think\db\Query.php:103]
+---------------------------------------------------------------
+[ 2019-09-05T11:02:44+08:00 ] 127.0.0.1 GET oa_admin.com/api/mini/company_info
+[运行时间：0.076299s] [吞吐率：13.11req/s] [内存消耗：3,652.73kb] [文件加载：128]
+[ error ] [0]致命错误: Call to a member function column() on array[D:\www\phpstudy_pro\WWW\oa_admin\application\api\controller\Mini.php:31]
+---------------------------------------------------------------
+[ 2019-09-05T11:25:28+08:00 ] 127.0.0.1 GET oa_admin.com/admin/company_info/index?addtabs=1&sort=id&order=desc&offset=0&limit=10&filter=%7B%7D&op=%7B%7D&_=1567653927808
+[运行时间：0.057820s] [吞吐率：17.30req/s] [内存消耗：4,351.88kb] [文件加载：140]
+[ error ] [10501]SQLSTATE[42S02]: Base table or view not found: 1146 Table 'oa_admin.oa_company_info' doesn't exist[D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\library\think\db\Connection.php:385]
+---------------------------------------------------------------
+[ 2019-09-05T11:41:25+08:00 ] 127.0.0.1 GET oa_admin.com/api/order/apply?code=001stmaa2i4LdN0ntS9a2k7faa2stma6&content=1
+[运行时间：0.242250s] [吞吐率：4.13req/s] [内存消耗：3,733.30kb] [文件加载：131]
+[ error ] [10501]SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'product_id' cannot be null[D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\library\think\db\Connection.php:453]
+---------------------------------------------------------------
+[ 2019-09-05T11:41:29+08:00 ] 127.0.0.1 GET oa_admin.com/api/order/apply?code=0214JDMP00XZc42RJWLP0tVAMP04JDMD&content=123123123123
+[运行时间：0.271644s] [吞吐率：3.68req/s] [内存消耗：3,733.38kb] [文件加载：131]
+[ error ] [10501]SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'product_id' cannot be null[D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\library\think\db\Connection.php:453]
+---------------------------------------------------------------
+[ 2019-09-05T15:35:42+08:00 ] 127.0.0.1 GET oa_admin.com/api/mini/message?code=001qVuzN19QnL91MU4zN1ixJzN1qVuzn
+[运行时间：0.350255s] [吞吐率：2.86req/s] [内存消耗：3,754.87kb] [文件加载：132]
+[ error ] [10501]SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'content' cannot be null[D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\library\think\db\Connection.php:453]
+---------------------------------------------------------------
+[ 2019-09-05T16:40:04+08:00 ] 127.0.0.1 GET oa_admin.com/admin/member/index?addtabs=1&sort=id&order=desc&offset=0&limit=10&filter=%7B%7D&op=%7B%7D&_=1567672804210
+[运行时间：0.062388s] [吞吐率：16.03req/s] [内存消耗：4,375.34kb] [文件加载：140]
+[ error ] [10501]SQLSTATE[42S02]: Base table or view not found: 1146 Table 'oa_admin.oa_member' doesn't exist[D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\library\think\db\Connection.php:385]
+---------------------------------------------------------------
+[ 2019-09-05T16:50:47+08:00 ] 127.0.0.1 GET oa_admin.com/api/order/apply?code=011wSmKD1eXwA503dNKD1628KD1wSmKz&product_id=1&city=%E5%A4%AA%E5%8E%9F&username=%E5%88%98%E8%B4%B5%E9%BE%99&mobile=13653668463&id_number=14232519901218559X
+[运行时间：2.304669s] [吞吐率：0.43req/s] [内存消耗：3,717.68kb] [文件加载：127]
+[ error ] [2002]SQLSTATE[HY000] [2002] ����Ŀ�����������ܾ����޷����ӡ�
+[D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\library\think\db\Connection.php:295]
+---------------------------------------------------------------
+[ 2019-09-05T17:47:06+08:00 ] 127.0.0.1 GET oa_admin.com/api/mini/promote?code=071doxLT0AmO6Z1o27MT05tmLT0doxLd
+[运行时间：0.064506s] [吞吐率：15.50req/s] [内存消耗：2,795.75kb] [文件加载：122]
+[ error ] [0]致命错误: Class 'QRcode' not found[D:\www\phpstudy_pro\WWW\oa_admin\application\api\controller\Mini.php:44]
+---------------------------------------------------------------
+[ 2019-09-05T17:49:41+08:00 ] 127.0.0.1 GET oa_admin.com/api/mini/promote?code=011RsFoH0dqvYf2nCspH0MvBoH0RsFok
+[运行时间：0.058007s] [吞吐率：17.24req/s] [内存消耗：2,795.75kb] [文件加载：122]
+[ error ] [0]致命错误: Class 'QRcode' not found[D:\www\phpstudy_pro\WWW\oa_admin\application\api\controller\Mini.php:44]
+---------------------------------------------------------------
+[ 2019-09-05T17:52:27+08:00 ] 127.0.0.1 GET oa_admin.com/api/mini/promote
+[运行时间：0.044990s] [吞吐率：22.23req/s] [内存消耗：2,792.27kb] [文件加载：122]
+[ error ] [0]致命错误: Class 'QRcode' not found[D:\www\phpstudy_pro\WWW\oa_admin\application\api\controller\Mini.php:44]
+---------------------------------------------------------------
+[ 2019-09-05T17:54:38+08:00 ] 127.0.0.1 GET oa_admin.com/api/mini/promote
+[运行时间：0.054632s] [吞吐率：18.30req/s] [内存消耗：2,792.27kb] [文件加载：122]
+[ error ] [0]致命错误: Class 'QRcode' not found[D:\www\phpstudy_pro\WWW\oa_admin\application\api\controller\Mini.php:45]
+---------------------------------------------------------------
+[ 2019-09-05T17:55:09+08:00 ] 127.0.0.1 GET oa_admin.com/admin/message?addtabs=1
+[运行时间：0.039463s] [吞吐率：25.34req/s] [内存消耗：2,788.63kb] [文件加载：125]
+[ error ] [0]致命错误: Class 'app\admin\controller\QRcode' not found[D:\www\phpstudy_pro\WWW\oa_admin\application\admin\controller\Message.php:29]
+---------------------------------------------------------------
+[ 2019-09-05T17:55:24+08:00 ] 127.0.0.1 GET oa_admin.com/admin/message?ref=addtabs
+[运行时间：0.034629s] [吞吐率：28.88req/s] [内存消耗：2,789.91kb] [文件加载：125]
+[ error ] [0]致命错误: Class 'QRcode' not found[D:\www\phpstudy_pro\WWW\oa_admin\application\admin\controller\Message.php:29]
+---------------------------------------------------------------
+[ 2019-09-05T17:55:25+08:00 ] 127.0.0.1 GET oa_admin.com/admin/message?ref=addtabs
+[运行时间：0.035420s] [吞吐率：28.23req/s] [内存消耗：2,789.91kb] [文件加载：125]
+[ error ] [0]致命错误: Class 'QRcode' not found[D:\www\phpstudy_pro\WWW\oa_admin\application\admin\controller\Message.php:29]
+---------------------------------------------------------------
+[ 2019-09-05T17:56:09+08:00 ] 127.0.0.1 GET oa_admin.com/admin/message?ref=addtabs
+[运行时间：0.070541s] [吞吐率：14.18req/s] [内存消耗：2,885.93kb] [文件加载：127]
+[ error ] [0]类型错误: Too few arguments to function EasyWeChat\Core\AbstractAPI::__construct(), 0 passed in D:\www\phpstudy_pro\WWW\oa_admin\application\admin\controller\Message.php on line 30 and exactly 1 expected[D:\www\phpstudy_pro\WWW\oa_admin\vendor\overtrue\wechat\src\Core\AbstractAPI.php:66]
+---------------------------------------------------------------
+[ 2019-09-05T17:57:32+08:00 ] 127.0.0.1 GET oa_admin.com/admin/message?ref=addtabs
+[运行时间：0.044365s] [吞吐率：22.54req/s] [内存消耗：2,885.93kb] [文件加载：127]
+[ error ] [0]类型错误: Too few arguments to function EasyWeChat\Core\AbstractAPI::__construct(), 0 passed in D:\www\phpstudy_pro\WWW\oa_admin\application\admin\controller\Message.php on line 30 and exactly 1 expected[D:\www\phpstudy_pro\WWW\oa_admin\vendor\overtrue\wechat\src\Core\AbstractAPI.php:66]
+---------------------------------------------------------------
+[ 2019-09-05T17:57:33+08:00 ] 127.0.0.1 GET oa_admin.com/admin/message?ref=addtabs
+[运行时间：0.034503s] [吞吐率：28.98req/s] [内存消耗：2,885.93kb] [文件加载：127]
+[ error ] [0]类型错误: Too few arguments to function EasyWeChat\Core\AbstractAPI::__construct(), 0 passed in D:\www\phpstudy_pro\WWW\oa_admin\application\admin\controller\Message.php on line 30 and exactly 1 expected[D:\www\phpstudy_pro\WWW\oa_admin\vendor\overtrue\wechat\src\Core\AbstractAPI.php:66]
+---------------------------------------------------------------
+[ 2019-09-05T17:57:57+08:00 ] 127.0.0.1 GET oa_admin.com/admin/message?ref=addtabs
+[运行时间：0.049617s] [吞吐率：20.15req/s] [内存消耗：2,789.91kb] [文件加载：125]
+[ error ] [0]致命错误: Class 'QRcode' not found[D:\www\phpstudy_pro\WWW\oa_admin\application\admin\controller\Message.php:30]
+---------------------------------------------------------------
+[ 2019-09-05T17:57:58+08:00 ] 127.0.0.1 GET oa_admin.com/admin/message?ref=addtabs
+[运行时间：0.037963s] [吞吐率：26.34req/s] [内存消耗：2,789.91kb] [文件加载：125]
+[ error ] [0]致命错误: Class 'QRcode' not found[D:\www\phpstudy_pro\WWW\oa_admin\application\admin\controller\Message.php:30]
+---------------------------------------------------------------
+[ 2019-09-05T17:57:59+08:00 ] 127.0.0.1 GET oa_admin.com/admin/message?ref=addtabs
+[运行时间：0.034720s] [吞吐率：28.80req/s] [内存消耗：2,789.91kb] [文件加载：125]
+[ error ] [0]致命错误: Class 'QRcode' not found[D:\www\phpstudy_pro\WWW\oa_admin\application\admin\controller\Message.php:30]
+---------------------------------------------------------------
+[ 2019-09-05T17:57:59+08:00 ] 127.0.0.1 GET oa_admin.com/admin/message?ref=addtabs
+[运行时间：0.034617s] [吞吐率：28.89req/s] [内存消耗：2,789.91kb] [文件加载：125]
+[ error ] [0]致命错误: Class 'QRcode' not found[D:\www\phpstudy_pro\WWW\oa_admin\application\admin\controller\Message.php:30]
+---------------------------------------------------------------
+[ 2019-09-05T18:00:44+08:00 ] 127.0.0.1 GET oa_admin.com/admin/message?ref=addtabs
+[运行时间：0.052856s] [吞吐率：18.92req/s] [内存消耗：2,789.96kb] [文件加载：125]
+[ error ] [0]致命错误: Class 'QRencode' not found[D:\www\phpstudy_pro\WWW\oa_admin\application\admin\controller\Message.php:30]
+---------------------------------------------------------------
+[ 2019-09-05T18:00:45+08:00 ] 127.0.0.1 GET oa_admin.com/admin/message?ref=addtabs
+[运行时间：0.034840s] [吞吐率：28.70req/s] [内存消耗：2,789.96kb] [文件加载：125]
+[ error ] [0]致命错误: Class 'QRencode' not found[D:\www\phpstudy_pro\WWW\oa_admin\application\admin\controller\Message.php:30]
+---------------------------------------------------------------
+[ 2019-09-05T19:50:40+08:00 ] 127.0.0.1 GET oa_admin.com/admin/message?ref=addtabs
+[运行时间：0.057495s] [吞吐率：17.39req/s] [内存消耗：2,789.96kb] [文件加载：125]
+[ error ] [0]致命错误: Class 'QRencode' not found[D:\www\phpstudy_pro\WWW\oa_admin\application\admin\controller\Message.php:30]

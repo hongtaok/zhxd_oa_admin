@@ -1,0 +1,100 @@
+---------------------------------------------------------------
+[ 2019-09-04T14:23:39+08:00 ] 127.0.0.1 POST oa_admin.com/api/mini/auth?code=123&mobile=13653668460
+[运行时间：0.070888s] [吞吐率：14.11req/s] [内存消耗：3,573.78kb] [文件加载：125]
+[ error ] 1
+---------------------------------------------------------------
+[ 2019-09-04T15:07:47+08:00 ] 192.168.31.177 POST oa_admin.com//api/product/categorys
+[运行时间：0.050679s] [吞吐率：19.73req/s] [内存消耗：2,330.88kb] [文件加载：116]
+[ error ] [0]语法解析错误: syntax error, unexpected '}'[D:\www\phpstudy_pro\WWW\oa_admin\application\api\controller\Product.php:23]
+---------------------------------------------------------------
+[ 2019-09-04T15:10:50+08:00 ] 192.168.31.177 POST oa_admin.com//api/product/categorys
+[运行时间：0.031012s] [吞吐率：32.25req/s] [内存消耗：2,330.88kb] [文件加载：116]
+[ error ] [0]语法解析错误: syntax error, unexpected '}'[D:\www\phpstudy_pro\WWW\oa_admin\application\api\controller\Product.php:23]
+---------------------------------------------------------------
+[ 2019-09-04T15:11:32+08:00 ] 127.0.0.1 GET oa_admin.com/api/product/categorys
+[运行时间：0.058122s] [吞吐率：17.21req/s] [内存消耗：2,387.41kb] [文件加载：117]
+[ error ] [64]Cannot declare class app\api\controller\Product because the name is already in use[D:\www\phpstudy_pro\WWW\oa_admin\application\api\controller\Product.php:17]
+---------------------------------------------------------------
+[ 2019-09-04T15:11:33+08:00 ] 127.0.0.1 GET oa_admin.com/api/product/categorys
+[运行时间：0.038645s] [吞吐率：25.88req/s] [内存消耗：2,387.41kb] [文件加载：117]
+[ error ] [64]Cannot declare class app\api\controller\Product because the name is already in use[D:\www\phpstudy_pro\WWW\oa_admin\application\api\controller\Product.php:17]
+---------------------------------------------------------------
+[ 2019-09-04T15:12:40+08:00 ] 127.0.0.1 GET oa_admin.com/api/product/categorys
+[运行时间：0.040047s] [吞吐率：24.97req/s] [内存消耗：2,387.45kb] [文件加载：117]
+[ error ] [64]Cannot declare class app\api\controller\Product because the name is already in use[D:\www\phpstudy_pro\WWW\oa_admin\application\api\controller\Product.php:17]
+---------------------------------------------------------------
+[ 2019-09-04T15:12:58+08:00 ] 127.0.0.1 GET oa_admin.com/api/product/categorys
+[运行时间：0.033086s] [吞吐率：30.22req/s] [内存消耗：2,387.41kb] [文件加载：117]
+[ error ] [64]Cannot declare class app\api\controller\Product because the name is already in use[D:\www\phpstudy_pro\WWW\oa_admin\application\api\controller\Product.php:17]
+---------------------------------------------------------------
+[ 2019-09-04T15:16:26+08:00 ] 127.0.0.1 GET oa_admin.com/api/product/products_by_category
+[运行时间：0.054721s] [吞吐率：18.27req/s] [内存消耗：2,766.89kb] [文件加载：122]
+[ error ] [0]类不存在:app\common\model\Product[D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\library\think\Loader.php:457]
+---------------------------------------------------------------
+[ 2019-09-04T16:41:35+08:00 ] 127.0.0.1 POST oa_admin.com/admin/product/edit/ids/1?dialog=1
+[运行时间：0.058173s] [吞吐率：17.19req/s] [内存消耗：4,415.50kb] [文件加载：138]
+[ error ] [0]致命错误: Class 'app\admin\controller\Db' not found[D:\www\phpstudy_pro\WWW\oa_admin\application\admin\controller\Product.php:79]
+---------------------------------------------------------------
+[ 2019-09-04T16:54:58+08:00 ] 127.0.0.1 GET oa_admin.com/admin/product/edit/ids/7?dialog=1
+[运行时间：0.104293s] [吞吐率：9.59req/s] [内存消耗：4,555.44kb] [文件加载：143]
+[ error ] [2]Use of undefined constant pcate_id - assumed 'pcate_id' (this will throw an Error in a future version of PHP)[D:\www\phpstudy_pro\WWW\oa_admin\runtime\temp\f6c3110e868580d47289bf3b5c4a4f0c.php:76]
+---------------------------------------------------------------
+[ 2019-09-04T17:58:23+08:00 ] 192.168.31.177 POST oa_admin.com/api/order/apply
+[运行时间：0.050495s] [吞吐率：19.80req/s] [内存消耗：3,561.69kb] [文件加载：128]
+[ error ] [0]类不存在:app\common\model\Apply[D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\library\think\Loader.php:457]
+---------------------------------------------------------------
+[ 2019-09-04T18:00:10+08:00 ] 127.0.0.1 GET oa_admin.com/api/order/apply?code=021V4J2d2zGiZG0FMz5d28KQ2d2V4J2S&product_id=1&city=%E5%A4%AA%E5%8E%9F&username=%E5%88%98%E8%B4%B5%E9%BE%99&phone=13653668463&id_number=14232519901218559X
+[运行时间：0.054079s] [吞吐率：18.49req/s] [内存消耗：3,562.78kb] [文件加载：128]
+[ error ] [0]类不存在:app\common\model\Apply[D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\library\think\Loader.php:457]
+---------------------------------------------------------------
+[ 2019-09-04T18:01:24+08:00 ] 127.0.0.1 GET oa_admin.com/api/order/apply?code=0716lfUn1KdoRp0F79Un1yPgUn16lfU3&product_id=1&city=%E5%A4%AA%E5%8E%9F&username=%E5%88%98%E8%B4%B5%E9%BE%99&phone=13653668463&id_number=14232519901218559X
+[运行时间：0.378205s] [吞吐率：2.64req/s] [内存消耗：3,731.26kb] [文件加载：131]
+[ error ] [10501]SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'mobile' cannot be null[D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\library\think\db\Connection.php:453]
+---------------------------------------------------------------
+[ 2019-09-04T18:01:50+08:00 ] 127.0.0.1 GET oa_admin.com/api/order/apply?code=071Q0WEm085nfr1mcFHm0xW8Fm0Q0WEK&product_id=1&city=%E5%A4%AA%E5%8E%9F&username=%E5%88%98%E8%B4%B5%E9%BE%99&mobile=13653668463&id_number=14232519901218559X
+[运行时间：0.266427s] [吞吐率：3.75req/s] [内存消耗：3,733.64kb] [文件加载：131]
+[ error ] [10501]SQLSTATE[HY000]: General error: 1364 Field 'apply_time' doesn't have a default value[D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\library\think\db\Connection.php:453]
+---------------------------------------------------------------
+[ 2019-09-04T18:18:52+08:00 ] 192.168.31.177 POST oa_admin.com/api/order/apply
+[运行时间：0.300659s] [吞吐率：3.33req/s] [内存消耗：3,732.99kb] [文件加载：131]
+[ error ] [10501]SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'product_id' cannot be null[D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\library\think\db\Connection.php:453]
+---------------------------------------------------------------
+[ 2019-09-04T18:34:00+08:00 ] 127.0.0.1 GET oa_admin.com/admin/user/user?ref=addtabs
+[运行时间：0.052790s] [吞吐率：18.94req/s] [内存消耗：3,114.27kb] [文件加载：128]
+[ error ] [2]session_start(): open(D:\www\phpstudy_pro\WWW\oa_admin\thinkphpruntime\session\\sess_7jt0pc6c96p2oo0bpjtuka82kd, O_RDWR) failed: No such file or directory (2)[D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\library\think\Session.php:106]
+---------------------------------------------------------------
+[ 2019-09-04T18:34:02+08:00 ] 127.0.0.1 GET oa_admin.com/admin/user/user?ref=addtabs
+[运行时间：0.036808s] [吞吐率：27.17req/s] [内存消耗：3,114.27kb] [文件加载：128]
+[ error ] [2]session_start(): open(D:\www\phpstudy_pro\WWW\oa_admin\thinkphpruntime\session\\sess_7jt0pc6c96p2oo0bpjtuka82kd, O_RDWR) failed: No such file or directory (2)[D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\library\think\Session.php:106]
+---------------------------------------------------------------
+[ 2019-09-04T18:34:32+08:00 ] 127.0.0.1 GET oa_admin.com/admin/user/user?ref=addtabs
+[运行时间：0.037661s] [吞吐率：26.55req/s] [内存消耗：3,114.11kb] [文件加载：128]
+[ error ] [2]session_start(): open(D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\runtime\session\\sess_7jt0pc6c96p2oo0bpjtuka82kd, O_RDWR) failed: No such file or directory (2)[D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\library\think\Session.php:106]
+---------------------------------------------------------------
+[ 2019-09-04T18:34:32+08:00 ] 127.0.0.1 GET oa_admin.com/admin/user/user?ref=addtabs
+[运行时间：0.035905s] [吞吐率：27.85req/s] [内存消耗：3,114.11kb] [文件加载：128]
+[ error ] [2]session_start(): open(D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\runtime\session\\sess_7jt0pc6c96p2oo0bpjtuka82kd, O_RDWR) failed: No such file or directory (2)[D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\library\think\Session.php:106]
+---------------------------------------------------------------
+[ 2019-09-04T18:34:34+08:00 ] 127.0.0.1 GET oa_admin.com/admin/user/user?ref=addtabs
+[运行时间：0.036163s] [吞吐率：27.65req/s] [内存消耗：3,114.11kb] [文件加载：128]
+[ error ] [2]session_start(): open(D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\runtime\session\\sess_7jt0pc6c96p2oo0bpjtuka82kd, O_RDWR) failed: No such file or directory (2)[D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\library\think\Session.php:106]
+---------------------------------------------------------------
+[ 2019-09-04T18:34:34+08:00 ] 127.0.0.1 GET oa_admin.com/admin/user/user?ref=addtabs
+[运行时间：0.033909s] [吞吐率：29.49req/s] [内存消耗：3,114.11kb] [文件加载：128]
+[ error ] [2]session_start(): open(D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\runtime\session\\sess_7jt0pc6c96p2oo0bpjtuka82kd, O_RDWR) failed: No such file or directory (2)[D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\library\think\Session.php:106]
+---------------------------------------------------------------
+[ 2019-09-04T18:34:35+08:00 ] 127.0.0.1 GET oa_admin.com/admin/user/user?ref=addtabs
+[运行时间：0.036876s] [吞吐率：27.12req/s] [内存消耗：3,114.11kb] [文件加载：128]
+[ error ] [2]session_start(): open(D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\runtime\session\\sess_7jt0pc6c96p2oo0bpjtuka82kd, O_RDWR) failed: No such file or directory (2)[D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\library\think\Session.php:106]
+---------------------------------------------------------------
+[ 2019-09-04T18:35:05+08:00 ] 127.0.0.1 GET oa_admin.com/admin/user/user?ref=addtabs
+[运行时间：0.048917s] [吞吐率：20.44req/s] [内存消耗：3,114.11kb] [文件加载：128]
+[ error ] [2]session_start(): open(D:\www\phpstudy_pro\WWW\oa_admin\runtime\runtime\session\\sess_7jt0pc6c96p2oo0bpjtuka82kd, O_RDWR) failed: No such file or directory (2)[D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\library\think\Session.php:106]
+---------------------------------------------------------------
+[ 2019-09-04T18:35:17+08:00 ] 127.0.0.1 GET oa_admin.com/admin/user/user?ref=addtabs
+[运行时间：0.038262s] [吞吐率：26.14req/s] [内存消耗：3,114.03kb] [文件加载：128]
+[ error ] [2]session_start(): open(D:\www\phpstudy_pro\WWW\oa_admin\runtime\\session\\sess_7jt0pc6c96p2oo0bpjtuka82kd, O_RDWR) failed: No such file or directory (2)[D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\library\think\Session.php:106]
+---------------------------------------------------------------
+[ 2019-09-04T18:35:26+08:00 ] 127.0.0.1 GET oa_admin.com/admin/user/user?ref=addtabs
+[运行时间：0.038139s] [吞吐率：26.22req/s] [内存消耗：3,114.19kb] [文件加载：128]
+[ error ] [2]session_start(): open(D:\www\phpstudy_pro\WWW\oa_admin\runtime\session\\sess_7jt0pc6c96p2oo0bpjtuka82kd, O_RDWR) failed: No such file or directory (2)[D:\www\phpstudy_pro\WWW\oa_admin\thinkphp\library\think\Session.php:106]
