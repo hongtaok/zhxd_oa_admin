@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:86:"D:\www\phpstudy_pro\WWW\oa_admin\public/../application/admin\view\dashboard\index.html";i:1562338655;s:75:"D:\www\phpstudy_pro\WWW\oa_admin\application\admin\view\layout\default.html";i:1562338655;s:72:"D:\www\phpstudy_pro\WWW\oa_admin\application\admin\view\common\meta.html";i:1562338655;s:74:"D:\www\phpstudy_pro\WWW\oa_admin\application\admin\view\common\script.html";i:1562338655;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:86:"D:\www\phpstudy_pro\WWW\oa_admin\public/../application/admin\view\dashboard\index.html";i:1568629602;s:75:"D:\www\phpstudy_pro\WWW\oa_admin\application\admin\view\layout\default.html";i:1562338655;s:72:"D:\www\phpstudy_pro\WWW\oa_admin\application\admin\view\common\meta.html";i:1562338655;s:74:"D:\www\phpstudy_pro\WWW\oa_admin\application\admin\view\common\script.html";i:1562338655;}*/ ?>
 <!DOCTYPE html>
 <html lang="<?php echo $config['language']; ?>">
     <head>
@@ -202,11 +202,11 @@
         padding: 30px 0;
     }
 </style>
-<?php if(preg_match('/\/admin\/|admin\.php|admin_d75KABNWt\.php/i', url())): ?>
-<div class="alert alert-danger-light">
-    <?php echo __('Security tips'); ?>
-</div>
-<?php endif; ?>
+<!--<?php if(preg_match('/\/admin\/|admin\.php|admin_d75KABNWt\.php/i', url())): ?>-->
+<!--<div class="alert alert-danger-light">-->
+    <!--<?php echo __('Security tips'); ?>-->
+<!--</div>-->
+<!--<?php endif; ?>-->
 <div class="panel panel-default panel-intro">
     <div class="panel-heading">
         <?php echo build_heading(null, false); ?>
@@ -434,7 +434,7 @@
                             </div>
                             <div class="box-body">
                                 <ul class="products-list product-list-in-box">
-                                    <?php $__FOR_START_1870593621__=1;$__FOR_END_1870593621__=8;for($i=$__FOR_START_1870593621__;$i < $__FOR_END_1870593621__;$i+=1){ ?>
+                                    <?php $__FOR_START_606707563__=1;$__FOR_END_606707563__=8;for($i=$__FOR_START_606707563__;$i < $__FOR_END_606707563__;$i+=1){ ?>
                                     <li class="item">
                                         <div class="product-img">
                                             <img src="/assets/img/avatar.png" style="height:40px;width:40px;">

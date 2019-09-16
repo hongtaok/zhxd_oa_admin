@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:82:"D:\www\phpstudy_pro\WWW\oa_admin\public/../application/admin\view\index\login.html";i:1562338655;s:72:"D:\www\phpstudy_pro\WWW\oa_admin\application\admin\view\common\meta.html";i:1562338655;s:74:"D:\www\phpstudy_pro\WWW\oa_admin\application\admin\view\common\script.html";i:1562338655;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:82:"D:\www\phpstudy_pro\WWW\oa_admin\public/../application/admin\view\index\login.html";i:1568629547;s:72:"D:\www\phpstudy_pro\WWW\oa_admin\application\admin\view\common\meta.html";i:1562338655;s:74:"D:\www\phpstudy_pro\WWW\oa_admin\application\admin\view\common\script.html";i:1562338655;}*/ ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -116,8 +116,8 @@
                             </form>
                         </div>
                     </div>
-                    <!-- FastAdmin是开源程序，建议在您的网站底部保留一个FastAdmin的链接 -->
-                    <p class="copyright"><a href="https://www.fastadmin.net">Powered By FastAdmin</a></p>
+
+                    <p class="copyright"><a href="#">一兜科技</a></p>
                 </div>
             </div>
         </div>
