@@ -397,7 +397,7 @@ class Mini extends Api
         }
 
         // 返回 user_id  和  session_key 前端保存
-        $this->success('ok', ['user_id' => $user_id, 'session_key' => $session_key]);
+        $this->success('ok', ['user_id' => $user_id, 'session_key' => $session_key, 'auth_data' => $auth_data]);
     }
 
     public function login()

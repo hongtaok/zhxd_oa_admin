@@ -20,7 +20,7 @@ function webapp_auth($code, $is_manager = false)
     // 微信api返回的session_key和openid
     $arr = httpWurl($url, $data, 'POST');
     $arr = json_decode($arr,true);
-
+    return $arr;
     // 判断是否成功
     if(isset($arr['errcode']) && !empty($arr['errcode'])){
         throw new \think\Exception($arr['errmsg'], $arr['errcode']);
@@ -29,7 +29,7 @@ function webapp_auth($code, $is_manager = false)
     $data['openid'] = $arr['openid'];
     $data['session_key'] = $arr['session_key'];
 
-    return $data;
+    return $arr;
 }
 
 

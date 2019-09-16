@@ -286,7 +286,7 @@ class Apply extends Backend
                 $apply_reject_log->admin_id = $this->auth->id;
                 $apply_reject_log->reject_reason = $params['reject_reason'];
                 $apply_reject_log->reject_time = date('Y-m-d H:i:s', time());
-                
+
                 $result = $apply_reject_log->save();
 
             } catch (Exception $e) {
