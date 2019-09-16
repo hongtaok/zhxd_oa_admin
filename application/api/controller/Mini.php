@@ -251,10 +251,9 @@ class Mini extends Api
 
         $user_info = $this->check_auth();
 
-        $data = 'http://oa_admin.com?parent_id=' . $user_info->id;
+        $data = $this->request->domain() . '?parent_id=' . $user_info->id;
 
-        $outfile = ROOT_PATH . 'public\qrcode' . DS . $user_info->id . '_' .  time() . '.jpg';
-
+        $outfile = ROOT_PATH . 'public' . DS . 'qrcode' . DS . $user_info->id . '_' .  time() . '.jpg';
 
         $level = 'L';
         $size = 4;
@@ -266,8 +265,6 @@ class Mini extends Api
         $qrcode_url = $this->request->domain() . DS . 'qrcode' . DS . $path_info['basename'];
 
         $this->success('', ['qrcode_url' => $qrcode_url]);
-
-
     }
 
     /**
