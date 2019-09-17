@@ -29,8 +29,20 @@ class ApplyRejectLog extends Model
     ];
     
 
-    
+    public function apply()
+    {
+        return $this->belongsTo('Apply');
+    }
 
+    public function user()
+    {
+        return $this->belongsTo('User');
+    }
+
+    public function admin()
+    {
+        return $this->belongsTo('Admin');
+    }
 
 
     public function getRejectTimeTextAttr($value, $data)

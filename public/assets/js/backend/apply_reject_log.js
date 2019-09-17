@@ -25,8 +25,10 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     [
                         {checkbox: true},
                         {field: 'id', title: __('Id')},
-                        {field: 'apply_id', title: __('Apply_id')},
-                        {field: 'admin_id', title: __('Admin_id')},
+                        {field: 'apply_id', title: '贷款申请id'},
+                        {field: 'apply.user.username', title: '申请人'},
+                        {field: 'apply.admin.username', title: '客户经理'},
+                        {field: 'admin.username', title: '操作人'},
                         {field: 'reject_reason', title: __('Reject_reason')},
                         {field: 'reject_time', title: __('Reject_time'), operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime},
                         {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
