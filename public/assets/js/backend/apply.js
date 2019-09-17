@@ -79,7 +79,35 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                     classname: 'btn btn-xs btn-danger btn-dialog',
                                     icon: 'fa fa-remove',
                                     url: 'apply/reject',
+                                    visible: function (row) {
+                                        return row.status != 2;
+                                    }
                                 },
+                                {
+                                    name: 'unreject',
+                                    text: '取消驳回',
+                                    title: '取消驳回',
+                                    classname: 'btn btn-xs btn-success btn-magic btn-ajax',
+                                    icon: 'fa fa-check',
+                                    url: 'apply/unreject',
+                                    confirm: '<div>确认撤销驳回并重新提交吗？</div>',
+                                    success: function (data, ret) {
+                                        //如果需要阻止成功提示，则必须使用return false;
+                                        Layer.alert('操作成功');
+                                        location.reload();
+                                        return false;
+                                    },
+                                    error: function (data, ret) {
+                                        console.log(data, ret);
+                                        Layer.alert(ret.msg);
+                                        return false;
+                                    },
+
+                                    visible: function (row) {
+                                        return row.status == 2;
+                                    },
+
+                                }
 
                             ]
                         },
@@ -106,6 +134,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
             Controller.api.bindevent();
         },
         reject: function () {
+            Controller.api.bindevent();
+        },
+        unreject: function () {
             Controller.api.bindevent();
         },
         api: {

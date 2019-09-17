@@ -255,6 +255,13 @@ class Apply extends Backend
         return $this->view->fetch();
     }
 
+    /**
+     * 驳回申请
+     * @param null $ids
+     * @return string
+     * @throws \think\Exception
+     * @throws \think\exception\DbException
+     */
     public function reject($ids = null)
     {
         $row = $this->model->get($ids);
@@ -304,5 +311,19 @@ class Apply extends Backend
         return $this->view->fetch();
     }
 
+    public function unreject($ids = null)
+    {
+        $row = $this->model->get($ids);
+        if ($this->request->isPost()) {
+            if ($row->status != 2) {
+                $this->error('数据类型错误');
+            }
+
+            $row->status = 0;
+            $row->save();
+            $this->success('操作成功');
+        }
+
+    }
 
 }
