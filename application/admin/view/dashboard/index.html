@@ -150,17 +150,13 @@
         padding: 30px 0;
     }
 </style>
-<!--{if preg_match('/\/admin\/|admin\.php|admin_d75KABNWt\.php/i', url())}-->
-<!--<div class="alert alert-danger-light">-->
-    <!--{:__('Security tips')}-->
-<!--</div>-->
-<!--{/if}-->
+
 <div class="panel panel-default panel-intro">
     <div class="panel-heading">
         {:build_heading(null, false)}
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#one" data-toggle="tab">{:__('Dashboard')}</a></li>
-            <li><a href="#two" data-toggle="tab">{:__('Custom')}</a></li>
+            <!--<li class="active"><a href="#one" data-toggle="tab">{:__('Dashboard')}</a></li>-->
+            <!--<li><a href="#two" data-toggle="tab">{:__('Custom')}</a></li>-->
         </ul>
     </div>
     <div class="panel-body">
@@ -179,126 +175,42 @@
                     </div>
                     <div class="col-sm-3 col-xs-6">
                         <div class="sm-st clearfix">
-                            <span class="sm-st-icon st-violet"><i class="fa fa-book"></i></span>
+                            <span class="sm-st-icon st-blue"><i class="fa fa-shopping-bag"></i></span>
                             <div class="sm-st-info">
-                                <span>{$totalviews}</span>
-                                {:__('Total view')}
+                                <span>{$total_apply}</span>
+                                总申请数
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-3 col-xs-6">
                         <div class="sm-st clearfix">
-                            <span class="sm-st-icon st-blue"><i class="fa fa-shopping-bag"></i></span>
+                            <span class="sm-st-icon st-violet"><i class="fa fa-remove"></i></span>
                             <div class="sm-st-info">
-                                <span>{$totalorder}</span>
-                                {:__('Total order')}
+                                <span>{$total_reject_apply}</span>
+                                总驳回数
                             </div>
                         </div>
                     </div>
+
                     <div class="col-sm-3 col-xs-6">
                         <div class="sm-st clearfix">
                             <span class="sm-st-icon st-green"><i class="fa fa-cny"></i></span>
                             <div class="sm-st-info">
-                                <span>{$totalorderamount}</span>
-                                {:__('Total order amount')}
+                                <span>{$total_apply_amount}</span>
+                                总放款金额
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-lg-8">
-                        <div id="echart" style="height:200px;width:100%;"></div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card sameheight-item stats">
-                            <div class="card-block">
-                                <div class="row row-sm stats-container">
-                                    <div class="col-xs-6 stat-col">
-                                        <div class="stat-icon"><i class="fa fa-rocket"></i></div>
-                                        <div class="stat">
-                                            <div class="value"> {$todayusersignup}</div>
-                                            <div class="name"> {:__('Today user signup')}</div>
-                                        </div>
-                                        <div class="progress">
-                                            <div class="progress-bar progress-bar-success" style="width: 30%"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6 stat-col">
-                                        <div class="stat-icon"><i class="fa fa-shopping-cart"></i></div>
-                                        <div class="stat">
-                                            <div class="value"> {$todayuserlogin}</div>
-                                            <div class="name"> {:__('Today user login')}</div>
-                                        </div>
-                                        <div class="progress">
-                                            <div class="progress-bar progress-bar-success" style="width: 25%"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6  stat-col">
-                                        <div class="stat-icon"><i class="fa fa-line-chart"></i></div>
-                                        <div class="stat">
-                                            <div class="value"> {$todayorder}</div>
-                                            <div class="name"> {:__('Today order')}</div>
-                                        </div>
-                                        <div class="progress">
-                                            <div class="progress-bar progress-bar-success" style="width: 25%"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6  stat-col">
-                                        <div class="stat-icon"><i class="fa fa-users"></i></div>
-                                        <div class="stat">
-                                            <div class="value"> {$unsettleorder}</div>
-                                            <div class="name"> {:__('Unsettle order')}</div>
-                                        </div>
-                                        <div class="progress">
-                                            <div class="progress-bar progress-bar-success" style="width: 25%"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6  stat-col">
-                                        <div class="stat-icon"><i class="fa fa-list-alt"></i></div>
-                                        <div class="stat">
-                                            <div class="value"> {$sevendnu}</div>
-                                            <div class="name"> {:__('Seven dnu')}</div>
-                                        </div>
-                                        <div class="progress">
-                                            <div class="progress-bar progress-bar-success" style="width: 25%"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6 stat-col">
-                                        <div class="stat-icon"><i class="fa fa-dollar"></i></div>
-                                        <div class="stat">
-                                            <div class="value"> {$sevendau}</div>
-                                            <div class="name"> {:__('Seven dau')}</div>
-                                        </div>
-                                        <div class="progress">
-                                            <div class="progress-bar progress-bar-success" style="width: 25%"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div class="row"></div>
 
                 <div class="row" style="margin-top:15px;">
 
                     <div class="col-lg-12">
                     </div>
-                    <div class="col-xs-6 col-md-3">
-                        <div class="panel bg-blue">
-                            <div class="panel-body">
-                                <div class="panel-title">
-                                    <span class="label label-success pull-right">{:__('Real time')}</span>
-                                    <h5>{:__('Category count')}</h5>
-                                </div>
-                                <div class="panel-content">
-                                    <h1 class="no-margins">1234</h1>
-                                    <div class="stat-percent font-bold text-gray"><i class="fa fa-commenting"></i> 1234</div>
-                                    <small>{:__('Category count tips')}</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
+                    <!-- 附件统计 start -->
                     <div class="col-xs-6 col-md-3">
                         <div class="panel bg-aqua-gradient">
                             <div class="panel-body">
@@ -307,14 +219,45 @@
                                     <h5>{:__('Attachment count')}</h5>
                                 </div>
                                 <div class="ibox-content">
-                                    <h1 class="no-margins">1043</h1>
-                                    <div class="stat-percent font-bold text-gray"><i class="fa fa-modx"></i> 2592</div>
+                                    <h1 class="no-margins">{$total_attachment}</h1>
+                                    <div class="stat-percent font-bold text-gray"><i class="fa fa-modx"></i> </div>
                                     <small>{:__('Attachment count tips')}</small>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!-- 附件统计 end -->
 
+                    <!-- 产品统计 start -->
+                    <div class="col-xs-6 col-md-3">
+                        <div class="panel bg-green-gradient">
+                            <div class="panel-body">
+                                <div class="ibox-title">
+                                    <span class="label label-primary pull-right">{:__('Real time')}</span>
+                                    <h5>产品统计</h5>
+                                </div>
+                                <div class="ibox-content">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h1 class="no-margins">{$total_product}</h1>
+                                            <div class="font-bold"><i class="fa fa-cube"></i>
+                                                <small>产品数量</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h1 class="no-margins">{$total_pcate}</h1>
+                                            <div class="font-bold"><i class="fa fa-cubes"></i>
+                                                <small>分类数量</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 产品统计 end -->
+
+                    <!-- 文章统计 start -->
                     <div class="col-xs-6 col-md-3">
                         <div class="panel bg-purple-gradient">
                             <div class="panel-body">
@@ -326,15 +269,15 @@
 
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h1 class="no-margins">1234</h1>
-                                            <div class="font-bold"><i class="fa fa-commenting"></i>
-                                                <small>{:__('Comment count')}</small>
+                                            <h1 class="no-margins">{$total_article}</h1>
+                                            <div class="font-bold"><i class="fa fa-file-text-o fa-fw"></i>
+                                                <small>文章数量</small>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <h1 class="no-margins">6754</h1>
-                                            <div class="font-bold"><i class="fa fa-heart"></i>
-                                                <small>{:__('Like count')}</small>
+                                            <h1 class="no-margins">{$total_article_category}</h1>
+                                            <div class="font-bold"><i class="fa fa-th-list fa-fw"></i>
+                                                <small>分类数量</small>
                                             </div>
                                         </div>
                                     </div>
@@ -342,26 +285,29 @@
                             </div>
                         </div>
                     </div>
+                    <!-- 文章统计 end -->
+
+                    <!-- 留言统计 start -->
                     <div class="col-xs-6 col-md-3">
                         <div class="panel bg-green-gradient">
                             <div class="panel-body">
                                 <div class="ibox-title">
                                     <span class="label label-primary pull-right">{:__('Real time')}</span>
-                                    <h5>{:__('News count')}</h5>
+                                    <h5>留言统计</h5>
                                 </div>
                                 <div class="ibox-content">
 
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h1 class="no-margins">5302</h1>
-                                            <div class="font-bold"><i class="fa fa-commenting"></i>
-                                                <small>{:__('Comment count')}</small>
+                                            <h1 class="no-margins">{$total_message_user}</h1>
+                                            <div class="font-bold"><i class="fa fa-user"></i>
+                                                <small>留言人数</small>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <h1 class="no-margins">8205</h1>
-                                            <div class="font-bold"><i class="fa fa-user"></i>
-                                                <small>{:__('Like count')}</small>
+                                            <h1 class="no-margins">{$total_message}</h1>
+                                            <div class="font-bold"><i class="fa fa-commenting"></i>
+                                                <small>留言数</small>
                                             </div>
                                         </div>
                                     </div>
@@ -369,82 +315,89 @@
                             </div>
                         </div>
                     </div>
+                    <!-- 留言统计 end -->
+
                 </div>
 
                 <div class="row">
+
+                    <!-- 最新文章 start -->
                     <div class="col-lg-4">
                         <div class="box box-danger">
                             <div class="box-header with-border">
-                                <h3 class="box-title">{:__('Recent news')}</h3>
+                                <h3 class="box-title">最新文章</h3>
 
                                 <div class="box-tools pull-right">
                                 </div>
                             </div>
                             <div class="box-body">
                                 <ul class="products-list product-list-in-box">
-                                    {for start="1" end="8"}
+
+                                    {volist name='article_list' id='vo'}
                                     <li class="item">
                                         <div class="product-img">
                                             <img src="__CDN__/assets/img/avatar.png" style="height:40px;width:40px;">
                                         </div>
                                         <div class="product-info">
                                             <a href="https://www.fastadmin.net" target="_blank" class="product-title">
-                                                FastAdmin
-                                                <span class="label label-{:$i%3===0?'warning':($i%2===0?'success':'info')} pull-right">开源免费</span>
+                                                {$vo.name}
+                                                <span class="label label-info pull-right">{$vo.city}</span>
                                             </a>
                                             <span class="product-description">
-                                              一款基于ThinkPHP5+Bootstrap的极速后台开发框架
+                                                {$vo.description}
                                             </span>
                                         </div>
                                     </li>
-                                    {/for}
+                                    {/volist}
+
                                 </ul>
                             </div>
                         </div>
                     </div>
+                    <!-- 最新文章 end -->
+
+                    <!-- 最新留言 start -->
                     <div class="col-lg-4">
                         <div class="box box-success">
                             <div class="box-header with-border">
-                                <h3 class="box-title">{:__('Recent discussion')}</h3>
-
+                                <h3 class="box-title">最新留言</h3>
                                 <div class="box-tools pull-right">
                                 </div>
                             </div>
                             <div class="box-body">
                                 <ul class="nav nav-pills nav-stacked">
-                                    <li><a href="https://www.fastadmin.net" target="_blank">一款基于ThinkPHP5+Bootstrap的极速后台开发框架<span class="pull-right text-red"><i class="fa fa-angle-down"></i> 12%</span></a></li>
-                                    <li><a href="https://www.fastadmin.net" target="_blank">一键生成CRUD控制器模型和视图 <span class="pull-right text-green"><i class="fa fa-angle-up"></i> 4%</span></a></li>
-                                    <li><a href="https://www.fastadmin.net" target="_blank">一键压缩打包JS和CSS文件 <span class="pull-right text-red"><i class="fa fa-angle-down"></i> 3%</span></a></li>
-                                    <li><a href="https://www.fastadmin.net" target="_blank">一键生成控制器菜单和规则 <span class="pull-right text-green"><i class="fa fa-angle-up"></i> 8%</span></a></li>
-                                    <li><a href="https://www.fastadmin.net" target="_blank">一键生成API接口文档 <span class="pull-right text-yellow"><i class="fa fa-angle-left"></i> 0%</span></a></li>
-                                    <li><a href="https://www.fastadmin.net" target="_blank">强大的插件扩展功能，在线安装卸载升级插件 <span class="pull-right text-red"><i class="fa fa-angle-down"></i> 10%</span></a></li>
-                                    <li><a href="https://www.fastadmin.net" target="_blank">通用的会员模块和API模块 <span class="pull-right text-green"><i class="fa fa-angle-up"></i> 2%</span></a></li>
-                                    <li><a href="https://www.fastadmin.net" target="_blank">共用同一账号体系的Web端会员中心权限验证和API接口会员权限验证 <span class="pull-right text-red"><i class="fa fa-angle-down"></i> 6%</span></a></li>
-                                    <li><a href="https://www.fastadmin.net" target="_blank">二级域名部署支持，同时域名支持绑定到插件 <span class="pull-right text-yellow"><i class="fa fa-angle-left"></i> 0%</span></a></li>
-                                    <li><a href="https://www.fastadmin.net" target="_blank">多语言支持，服务端及客户端支持 <span class="pull-right text-yellow"><i class="fa fa-angle-left"></i> 0%</span></a></li>
-                                    <li><a href="https://www.fastadmin.net" target="_blank">基于Bootstrap开发，自适应手机、平板、PC <span class="pull-right text-green"><i class="fa fa-angle-up"></i> 4%</span></a></li>
+                                    {volist name='message_list' id='vo'}
+                                    <li>
+                                        <a href="https://www.fastadmin.net" target="_blank">
+                                            {$vo.content}
+                                            <span class="pull-right text-red"> {$vo.user.username}</span>
+                                        </a>
+                                    </li>
+                                    {/volist}
                                 </ul>
                             </div>
                         </div>
                     </div>
+                    <!-- 最新留言 end -->
+
                     <div class="col-lg-4">
                         <div class="box box-info">
                             <div class="box-header"><h3 class="box-title">{:__('Server info')}</h3></div>
                             <div class="box-body" style="padding-top:0;">
                                 <table class="table table-striped">
                                     <tbody>
-                                    <tr>
-                                        <td width="140">{:__('FastAdmin version')}</td>
-                                        <td>{$Think.config.fastadmin.version} <a href="javascript:;" class="btn btn-xs btn-checkversion">检查最新版</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>{:__('FastAdmin addon version')}</td>
-                                        <td>{$addonversion}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{:__('Thinkphp version')}</td>
-                                        <td>{:THINK_VERSION}</td>
-                                    </tr>
+                                    <!--<tr>-->
+                                        <!--<td width="140">{:__('FastAdmin version')}</td>-->
+                                        <!--<td>{$Think.config.fastadmin.version} </td>-->
+                                    <!--</tr>-->
+                                    <!--<tr>-->
+                                        <!--<td>{:__('FastAdmin addon version')}</td>-->
+                                        <!--<td>{$addonversion}</td>-->
+                                    <!--</tr>-->
+                                    <!--<tr>-->
+                                        <!--<td>{:__('Thinkphp version')}</td>-->
+                                        <!--<td>{:THINK_VERSION}</td>-->
+                                    <!--</tr>-->
                                     <tr>
                                         <td>{:__('Sapi name')}</td>
                                         <td>{:php_sapi_name()}</td>
