@@ -13,12 +13,12 @@ use think\Config;
  */
 class Common extends Api
 {
-    protected $noNeedLogin = ['init'];
+    protected $noNeedLogin = ['init', 'upload'];
     protected $noNeedRight = '*';
 
     /**
      * 加载初始化
-     *
+     *s
      * @param string $version 版本号
      * @param string $lng     经度
      * @param string $lat     纬度

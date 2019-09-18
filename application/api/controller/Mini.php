@@ -237,7 +237,7 @@ class Mini extends Api
     }
 
     /**
-     * 推广
+     * 推广 (授权过的用户才可以推广)
      * @return int
      */
     public function promote()
@@ -248,10 +248,31 @@ class Mini extends Api
         $params['mobile'] = $this->request->request('mobile');
         $params['bank_card'] = $this->request->request('bank_card');
         $params['bank_name'] = $this->request->request('bank_name');
+        $params['bank_front_image'] = $this->request->request('bank_front_image');
+        $params['bank_back_image'] = $this->request->request('bank_back_image');
+
+        $validate = new Validate([
+            'username' => 'require',
+            'mobile' => 'require|number',
+            'bank_card' => 'require',
+            'bank_name' => 'require',
+            'bank_front_image' => 'require',
+            'bank_back_image' => 'require',
+        ], [
+            'username.require' => '用户姓名不能为空',
+            'mobile.require' => '手机号码不能为空',
+            'bank_card.require' => '银行卡号不能为空',
+            'bank_name.require' => '开户行不能为空',
+            'bank_front_image.require' => '银行卡正面照不能为空',
+            'bank_back_image.require' => '银行卡背面照不能为空',
+        ]);
+        if (!$validate->check($params)) {
+            $this->error($validate->getError());
+        }
 
         $user_info = $this->check_auth();
 
-        $data = $this->request->domain() . '?parent_id=' . $user_info->id;
+        $data = $this->request->domain() . '?pid=' . $user_info->id;
 
         $outfile = ROOT_PATH . 'public' . DS . 'qrcode' . DS . $user_info->id . '_' .  time() . '.jpg';
 
@@ -264,7 +285,17 @@ class Mini extends Api
         $path_info = pathinfo($outfile);
         $qrcode_url = $this->request->domain() . DS . 'qrcode' . DS . $path_info['basename'];
 
-        $this->success('', ['qrcode_url' => $qrcode_url]);
+        // 保存个人的推广二维码
+        $user_info->promote_code = $qrcode_url;
+        $user_info->username = $params['username'];
+        $user_info->mobile = $params['mobile'];
+        $user_info->bank_card = $params['bank_card'];
+        $user_info->bank_name = $params['bank_name'];
+        $user_info->bank_front_image = $params['bank_front_image'];
+        $user_info->bank_back_image = $params['bank_back_image'];
+        $user_info->save();
+
+        $this->success('', ['user_info' => $user_info]);
     }
 
     /**
@@ -366,6 +397,7 @@ class Mini extends Api
         $data['code'] = $this->request->request('code');
         $data['nickname'] = $this->request->request('nickname');
         $data['avatar'] = $this->request->request('avatar');
+        $pid = $this->request->request('pid');
 
         $validate = new Validate([
             'code' => 'require',
@@ -387,6 +419,11 @@ class Mini extends Api
             $user_model->avatar = $data['avatar'];
             $user_model->openid = $openid;
             $user_model->session_key = $session_key;
+
+            if (!empty($pid)) {
+                $user_model->pid = $pid;
+            }
+
             $user_model->save();
             $user_id = $user_model->getLastInsID();
         } else {
