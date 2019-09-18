@@ -33,7 +33,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'admin.username', title: __('Admin_id'), operate:false},
                         {field: 'first_check_fund', title: __('First_check_fund'), operate:'BETWEEN'},
                         {field: 'final_check_fund', title: __('Final_check_fund'), operate:'BETWEEN'},
-                        {field: 'status', title: __('Status'), searchList: {"0":__('Status 0'),"1":__('Status 1'),"2":__('Status 2'),"3":__('Status 3')}, formatter: Table.api.formatter.status, custom: {0:'info', 1:'success', 2:'danger', 3:'gray'}},
+                        {field: 'status', title: __('Status'), searchList: {"0":'未审核',"1":'审核中',"2":'审核拒绝',"3":'审核通过'}, formatter: Table.api.formatter.status, custom: {0:'info', 1:'success', 2:'danger', 3:'gray'}},
                         {field: 'apply_time', title: __('Apply_time'), operate:'RANGE', addclass:'datetimerange'},
                         {field: 'upload_evidence_time', title: __('Upload_evidence_time'), operate:'RANGE', addclass:'datetimerange'},
                         {field: 'allot_time', title: __('Allot_time'), operate:'RANGE', addclass:'datetimerange'},
@@ -107,7 +107,119 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                         return row.status == 2;
                                     },
 
-                                }
+                                },
+                                {
+                                    name: 'first_check',
+                                    text: '初审通过',
+                                    title: '初审通过',
+                                    classname: 'btn btn-xs btn-success btn-magic btn-ajax',
+                                    icon: 'fa fa-check-circle-o',
+                                    url: 'apply/first_check',
+                                    confirm: '<div>确认初审通过码?</div>',
+                                    success: function (data, ret) {
+                                        Layer.alert('操作成功');
+                                        location.reload();
+                                        return false;
+                                    },
+                                    error: function (data, ret) {
+                                        console.log(data, ret);
+                                        Layer.alert(ret.msg);
+                                        return false;
+                                    },
+                                    visible: function (row) {
+                                        console.log(row.first_check_time == null);
+                                        // 如果审核驳回，则不显示
+                                        if (row.status == 2) {
+                                            return false;
+                                        }
+
+                                        // 如果客户经理没有上传尽调报告，则不显示
+                                        if (row.report_fund_time == '' || row.report_fund_time == null || row.report_fund_time == 'undefined') {
+                                            return false;
+                                        }
+
+                                        // 如果已经通过风控初审， 则不显示
+                                        if (row.first_check_time != null) {
+                                            return false;
+                                        }
+                                        return true;
+                                    }
+
+                                },
+                                {
+                                    name: 'middle_check',
+                                    text: '中审通过',
+                                    title: '中审通过',
+                                    classname: 'btn btn-xs btn-success btn-magic btn-ajax',
+                                    icon: 'fa fa-check-circle-o',
+                                    url: 'apply/middle_check',
+                                    confirm: '<div>确认中审通过码?</div>',
+                                    success: function (data, ret) {
+                                        Layer.alert('操作成功');
+                                        location.reload();
+                                        return false;
+                                    },
+                                    error: function (data, ret) {
+                                        console.log(data, ret);
+                                        Layer.alert(ret.msg);
+                                        return false;
+                                    },
+                                    visible: function (row) {
+                                        // 如果审核驳回，则不显示
+                                        if (row.status == 2) {
+                                            return false;
+                                        }
+
+                                        // 如果初审没有通过，则不显示
+                                        if (row.first_check_time == '' || row.first_check_time == null || row.first_check_time == 'undefined') {
+                                            return false;
+                                        }
+
+                                        // 如果已经通过风控中审， 则不显示
+                                        if (row.middle_check_time != null) {
+                                            return false;
+                                        }
+                                        return true;
+                                    }
+
+                                },
+                                {
+                                    name: 'final_check',
+                                    text: '终审通过',
+                                    title: '终审通过',
+                                    classname: 'btn btn-xs btn-success btn-magic btn-ajax',
+                                    icon: 'fa fa-check-circle-o',
+                                    url: 'apply/final_check',
+                                    confirm: '<div>确认终审通过码?</div>',
+                                    success: function (data, ret) {
+                                        Layer.alert('操作成功');
+                                        location.reload();
+                                        return false;
+                                    },
+                                    error: function (data, ret) {
+                                        console.log(data, ret);
+                                        Layer.alert(ret.msg);
+                                        return false;
+                                    },
+                                    visible: function (row) {
+                                        // 如果审核驳回，则不显示
+                                        if (row.status == 2) {
+                                            return false;
+                                        }
+
+                                        // 如果中审没有通过，则不显示
+                                        if (row.middle_check_time == '' || row.middle_check_time == null || row.middle_check_time == 'undefined') {
+                                            return false;
+                                        }
+
+                                        // 如果已经通过风控终审， 则不显示
+                                        if (row.final_check_time != null) {
+                                            return false;
+                                        }
+                                        return true;
+                                    }
+
+                                },
 
                             ]
                         },
@@ -137,6 +249,15 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
             Controller.api.bindevent();
         },
         unreject: function () {
+            Controller.api.bindevent();
+        },
+        first_check: function () {
+            Controller.api.bindevent();
+        },
+        middle_check: function () {
+            Controller.api.bindevent();
+        },
+        final_check: function () {
             Controller.api.bindevent();
         },
         api: {

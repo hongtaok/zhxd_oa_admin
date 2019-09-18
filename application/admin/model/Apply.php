@@ -32,7 +32,7 @@ class Apply extends Model
     
     public function getStatusList()
     {
-        return ['0' => __('Status 0'), '1' => __('Status 1'), '2' => __('Status 2'), '3' => __('Status 3')];
+        return ['0' => '未审核', '1' => '审核中', '2' => '审核拒绝', '3' => '审核通过'];
     }
 
 

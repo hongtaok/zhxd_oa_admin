@@ -157,6 +157,7 @@ class Apply extends Backend
             }
 
             $params['upload_evidence_time'] = date('Y-m-d H:i:s', time());
+            $params['status'] = 1;
             $result = $row->allowField(true)->save($params);
             if ($result !== false) {
                 $this->success('上传成功', '');
@@ -311,6 +312,11 @@ class Apply extends Backend
         return $this->view->fetch();
     }
 
+    /**
+     * 取消驳回并重新提交
+     * @param null $ids
+     * @throws \think\exception\DbException
+     */
     public function unreject($ids = null)
     {
         $row = $this->model->get($ids);
@@ -323,7 +329,64 @@ class Apply extends Backend
             $row->save();
             $this->success('操作成功');
         }
-
     }
+
+
+    public function first_check($ids = null)
+    {
+        $row = $this->model->get($ids);
+        if ($this->request->isPost()) {
+            // 申请不能为驳回和通过状态， 并且客户经理已经提交尽调报告，给出初审额度
+            if ($row->status != 2 && $row->status != 3 && !empty($row->report_fund_time)) {
+                $row->first_check_time = date('Y-m-d H:i:s', time());
+                $row->save();
+                $this->success('初审通过!');
+            }
+        }
+    }
+
+    public function middle_check($ids = null)
+    {
+        $row = $this->model->get($ids);
+        if ($this->request->isPost()) {
+            // 如果审核驳回，则不显示
+            if ($row->status == 2) {
+                $this->error('申请数据错误');
+            }
+
+            // 如果初审没有通过，则不显示
+            if ($row->first_check_time == '' || $row->first_check_time == null || $row->first_check_time == 'undefined') {
+                $this->error('申请数据错误');
+            }
+
+            $row->middle_check_time = date('Y-m-d H:i:s', time());
+            $row->save();
+            $this->success('中审通过!');
+        }
+    }
+
+    public function final_check($ids = null)
+    {
+        $row = $this->model->get($ids);
+        if ($this->request->isPost()) {
+            // 如果审核驳回，则不显示
+            if ($row->status == 2) {
+                $this->error('申请数据错误');
+            }
+
+            // 如果初审没有通过，则不显示
+            if ($row->middle_check_time == '' || $row->middle_check_time == null || $row->middle_check_time == 'undefined') {
+                $this->error('申请数据错误');
+            }
+
+            $row->final_check_time = date('Y-m-d H:i:s', time());
+
+            
+
+            $row->save();
+            $this->success('终审通过!');
+        }
+    }
+
 
 }

@@ -139,7 +139,8 @@ class Mini extends Api
         $user_info = $this->check_auth();
 
         $status = $this->request->request('status') ?? 0;
-        $applies = Db::table('oa_apply')->where('user_id', '=', $user_info->id)->where('status', '=', $status)->select();
+        $apply_model = new Apply();
+        $applies = $apply_model->with('product')->where('user_id', '=', $user_info->id)->where('status', '=', $status)->select();
         $this->success('', $applies);
     }
 
@@ -154,7 +155,8 @@ class Mini extends Api
         $user_info = $this->check_auth();
 
         $apply_id = $this->request->request('apply_id');
-        $apply = Db::table('oa_apply')->where('id', '=', $apply_id)->where('user_id', '=', $user_info->id)->find();
+        $apply_model = new Apply();
+        $apply = $apply_model->with('product')->where('user_id', '=', $user_info->id)->where('id', '=', $apply_id)->find();
         $this->success('', $apply);
     }
 
