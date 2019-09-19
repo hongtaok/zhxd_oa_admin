@@ -25,7 +25,7 @@ class Product extends Model
 
     // 追加属性
     protected $append = [
-        'evidences'
+//        'evidences'
     ];
 
     public function pcate()

@@ -10,6 +10,7 @@ namespace app\api\controller;
 
 
 use app\admin\model\Admin;
+use app\admin\model\Apply;
 use app\admin\model\Department;
 use app\admin\model\Employee;
 use app\common\controller\Api;
@@ -155,5 +156,88 @@ class Manager extends Api
     {
         return md5(md5($password) . $salt);
     }
+
+    /**
+     * 该员工下的 贷款申请
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function applies()
+    {
+        $admin_id = $this->request->request('admin_id');
+        $status = $this->request->request('status');
+        $start_time = $this->request->request('start_time') . ' 00:00:00';
+        $end_time = $this->request->request('end_time') . ' 24:00:00';
+
+        $apply_model = new Apply();
+        $applies = $apply_model
+            ->field('id,product_id,user_id,admin_id,status,apply_time,city')
+            ->with(['product' => function ($query) {
+                $query->field('id,name,evidence_ids');
+            }])
+            ->with(['user' => function ($query) {
+                $query->field('id,username,mobile,prevtime,logintime,jointime');
+            }])
+            ->where('admin_id', '=', $admin_id)
+            ->where('status', '=', $status)
+            ->where('apply_time', '>', $start_time)
+            ->where('apply_time', '<', $end_time)
+            ->select();
+
+        $this->success('', ['applies' => $applies]);
+
+    }
+
+    public function apply_info()
+    {
+        $id = $this->request->request('id');
+
+        if (empty($id)) {
+            $this->error('参数错误');
+        }
+
+        $apply_model = new Apply();
+        $apply_info = $apply_model
+            ->field('id,product_id,user_id,admin_id,status,apply_time,city')
+            ->with(['product' => function ($query) {
+                $query->field('id, name');
+            }])
+            ->with(['user' => function ($query) {
+                $query->field('id,username,mobile,prevtime,logintime,jointime');
+            }])
+            ->where('id', '=', $id)
+            ->find();
+
+        if (empty($apply_info)) {
+            $this->error('数据不存在');
+        }
+
+        $this->success('', ['apply_info' => $apply_info]);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

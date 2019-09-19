@@ -202,7 +202,6 @@ class Apply extends Backend
     public function allot($ids = null)
     {
         $row = $this->model->get($ids);
-
         $admin_model = new Admin();
         $admin_info = $admin_model->where('id', $this->auth->id)->find();
         $admins = $admin_model->where('department_id', $admin_info->department_id)->select();
@@ -216,6 +215,10 @@ class Apply extends Backend
         }
 
         if ($this->request->isPost()) {
+            if (empty($row->upload_evidence_time)) {
+                $this->error('还未提交资料信息');
+            }
+
             $params = $this->request->request('row/a');
             $validate = new Validate([
                 'admin_id' => 'require|number',
@@ -250,6 +253,10 @@ class Apply extends Backend
         $row = $this->model->get($ids);
 
         if ($this->request->isPost()) {
+            if (empty($row->admin_id)) {
+                $this->error('还未分配客户经理');
+            }
+
             $params = $this->request->request('row/a');
 
             $validate = new Validate([

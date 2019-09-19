@@ -75,20 +75,28 @@ class Mini extends Api
     public function user_team($in = false)
     {
         $user_info = $this->check_auth();
-        $user_team_first = Db::table('oa_user')->field('id, username, nickname, avatar')->where('pid', '=', $user_info->id)->select();
+        $user_team_first = Db::table('oa_user')->field('id, username, mobile, nickname, avatar, pid')->where('pid', '=', $user_info->id)->select();
+
+        $config_model = new Config();
 
         if (!empty($user_team_first)) {
+            $scale_one = $config_model->where('name', '=', 'scale_one')->find();
             foreach ($user_team_first as $user_own_key => &$user_own_val) {
                 $user_own_val['tier'] = 1;
+                $user_own_val['apply_total'] = Db::table('oa_apply')->where('user_id', '=', $user_own_val['id'])->where('status', '=', 3)->sum('final_check_fund');
+                $user_own_val['income'] = $user_own_val['apply_total'] * $scale_one->value;
                 $user_team_second_ids[] = $user_own_val['id'];
             }
         }
 
         if (!empty($user_team_second_ids)) {
-            $user_team_second = Db::table('oa_user')->field('id, username, nickname, avatar')->whereIn('pid', $user_team_second_ids)->select();
+            $scale_two = $config_model->where('name', '=', 'scale_two')->find();
+            $user_team_second = Db::table('oa_user')->field('id, username, mobile, nickname, avatar, pid')->whereIn('pid', $user_team_second_ids)->select();
             if (!empty($user_team_second)) {
                 foreach ($user_team_second as $user_own_key1 => &$user_own_val1) {
                     $user_own_val1['tier'] = 2;
+                    $user_own_val1['apply_total'] = Db::table('oa_apply')->where('user_id', '=', $user_own_val1['id'])->where('status', '=', 3)->sum('final_check_fund');
+                    $user_own_val1['income'] = $user_own_val1['apply_total'] * $scale_two->value;
                 }
             }
         } else {
@@ -112,21 +120,35 @@ class Mini extends Api
      */
     public function user_team_applies()
     {
+        $config_model = new Config();
+        $scale_one = $config_model->where('name', '=', 'scale_one')->find();
+        $scale_two = $config_model->where('name', '=', 'scale_two')->find();
+
         $user_teams = $this->user_team(true);
         $users = array_merge($user_teams['first'], $user_teams['second']);
 
         $applies = [];
         if (!empty($users)) {
             foreach ($users as $key => &$val) {
-                $user_applies = Db::table('oa_apply')->where('user_id', $val['id'])->select();
+                $user_applies = Db::table('oa_apply')->field('id, product_id, user_id, admin_id, first_check_fund, final_check_fund, final_check_time, status')->where('user_id', $val['id'])->where('status', 3)->select();
                 if (!empty($user_applies)) {
                     foreach ($user_applies as &$user_apply) {
+                        if ($val['tier'] == 1) {
+                            $user_apply['apply_income'] = $user_apply['final_check_fund'] * $scale_one->value;
+                        }
+                        if ($val['tier'] == 2) {
+                            $user_apply['apply_income'] = $user_apply['final_check_fund'] * $scale_two->value;
+                        }
+                        $user_apply['product_name'] = Db::table('oa_product')->where('id', $user_apply['product_id'])->column('name')[0];
                         $user_apply['user_info'] = $val;
-                        $applies[] = $user_apply;
+                        $applies['list'][] = $user_apply;
                     }
                 }
             }
         }
+
+        $applies['total_apply_income'] = array_sum(array_column($applies['list'], 'apply_income'));
+
         $this->success('', $applies);
     }
 

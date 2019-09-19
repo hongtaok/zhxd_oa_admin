@@ -40,6 +40,6 @@ return array (
   'company_contact' => '0351-6526999',
   'company_desc' => '山西中汇鑫德',
   'company_product_desc' => '小额贷款',
-  'scale_one' => '10%',
-  'scale_two' => '5%',
+  'scale_one' => '0.1',
+  'scale_two' => '0.05',
 );

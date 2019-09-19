@@ -63,6 +63,13 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                     classname: 'btn btn-xs btn-info btn-dialog',
                                     icon: 'fa fa-user',
                                     url: 'apply/allot',
+                                    visible: function (row) {
+                                        // 如果没有上传资料， 不能分配
+                                        if (row.upload_evidence_time == '' || row.upload_evidence_time == null || row.upload_evidence_time == 'undefined') {
+                                            return false;
+                                        }
+                                        return true;
+                                    }
                                 },
                                 {
                                     name: 'report_check_fund',
@@ -71,6 +78,24 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                     classname: 'btn btn-xs btn-warning btn-dialog',
                                     icon: 'fa fa-money',
                                     url: 'apply/report_check_fund',
+                                    visible: function (row) {
+                                        // 如果未分配客户经理， 不能上传尽调资料
+                                        if (row.admin_id == '' || row.admin_id == null || row.admin_id == 'undefined') {
+                                            return false;
+                                        }
+
+                                        // 如果申请已经通过， 则不显示
+                                        if (row.status == 3) {
+                                            return false;
+                                        }
+
+                                        // 如果风控初审已过， 则不显示
+                                        if (row.first_check_time != null) {
+                                            return false;
+                                        }
+
+                                        return true;
+                                    }
                                 },
                                 {
                                     name: 'reject',
@@ -136,7 +161,6 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                         return false;
                                     },
                                     visible: function (row) {
-                                        console.log(row.first_check_time == null);
                                         // 如果审核驳回，则不显示
                                         if (row.status == 2) {
                                             return false;
