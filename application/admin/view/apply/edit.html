@@ -22,6 +22,33 @@
     </div>
 
     <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="radio">
+            {foreach name="statusList" item="vo"}
+            <label for="row[status]-{$key}">
+                <input id="row[status]-{$key}" name="row[status]" type="radio" value="{$key}" {in name="key" value="$row.status"}checked{/in} disabled/>
+                {$vo}</label>
+            {/foreach}
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Apply_time')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-apply_time" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[apply_time]" type="text" value="{$row.apply_time}" disabled>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Allot_time')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-allot_time" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[allot_time]" type="text" value="{$row.allot_time}" disabled>
+        </div>
+    </div>
+
+    <div class="form-group">
         <label class="control-label col-xs-12 col-sm-2">{:__('First_check_fund')}:</label>
         <div class="col-xs-12 col-sm-8">
             <input id="c-first_check_fund" data-rule="required" class="form-control" step="0.01" name="row[first_check_fund]" type="number" value="{$row.first_check_fund|htmlentities}">
@@ -32,31 +59,6 @@
         <label class="control-label col-xs-12 col-sm-2">{:__('Final_check_fund')}:</label>
         <div class="col-xs-12 col-sm-8">
             <input id="c-final_check_fund" data-rule="required" class="form-control" step="0.01" name="row[final_check_fund]" type="number" value="{$row.final_check_fund|htmlentities}">
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <div class="radio">
-            {foreach name="statusList" item="vo"}
-            <label for="row[status]-{$key}"><input id="row[status]-{$key}" name="row[status]" type="radio" value="{$key}" {in name="key" value="$row.status"}checked{/in} /> {$vo}</label>
-            {/foreach}
-            </div>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Apply_time')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-apply_time" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[apply_time]" type="text" value="{$row.apply_time}">
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Allot_time')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-allot_time" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[allot_time]" type="text" value="{$row.allot_time}">
         </div>
     </div>
 

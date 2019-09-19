@@ -80,7 +80,16 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                     icon: 'fa fa-remove',
                                     url: 'apply/reject',
                                     visible: function (row) {
-                                        return row.status != 2;
+                                        // 风控终审通过， 且已经完成， 则不显示
+                                        if (row.status == 3) {
+                                            return false;
+                                        }
+
+                                        // 已经处于驳回状态， 则不显示
+                                        if (row.status == 2) {
+                                            return false;
+                                        }
+                                        return true;
                                     }
                                 },
                                 {
@@ -187,20 +196,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                     name: 'final_check',
                                     text: '终审通过',
                                     title: '终审通过',
-                                    classname: 'btn btn-xs btn-success btn-magic btn-ajax',
+                                    classname: 'btn btn-xs btn-success btn-dialog',
                                     icon: 'fa fa-check-circle-o',
                                     url: 'apply/final_check',
-                                    confirm: '<div>确认终审通过码?</div>',
-                                    success: function (data, ret) {
-                                        Layer.alert('操作成功');
-                                        location.reload();
-                                        return false;
-                                    },
-                                    error: function (data, ret) {
-                                        console.log(data, ret);
-                                        Layer.alert(ret.msg);
-                                        return false;
-                                    },
                                     visible: function (row) {
                                         // 如果审核驳回，则不显示
                                         if (row.status == 2) {

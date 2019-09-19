@@ -75,21 +75,24 @@ class Mini extends Api
     public function user_team($in = false)
     {
         $user_info = $this->check_auth();
-
         $user_team_first = Db::table('oa_user')->field('id, username, nickname, avatar')->where('pid', '=', $user_info->id)->select();
+
         if (!empty($user_team_first)) {
             foreach ($user_team_first as $user_own_key => &$user_own_val) {
                 $user_own_val['tier'] = 1;
                 $user_team_second_ids[] = $user_own_val['id'];
-
             }
         }
 
-        $user_team_second = Db::table('oa_user')->field('id, username, nickname, avatar')->whereIn('pid', $user_team_second_ids)->select();
-        if (!empty($user_team_second)) {
-            foreach ($user_team_second as $user_own_key1 => &$user_own_val1) {
-                $user_own_val1['tier'] = 2;
+        if (!empty($user_team_second_ids)) {
+            $user_team_second = Db::table('oa_user')->field('id, username, nickname, avatar')->whereIn('pid', $user_team_second_ids)->select();
+            if (!empty($user_team_second)) {
+                foreach ($user_team_second as $user_own_key1 => &$user_own_val1) {
+                    $user_own_val1['tier'] = 2;
+                }
             }
+        } else {
+            $user_team_second = [];
         }
 
         $user_team_total = count($user_team_first) + count($user_team_second);
@@ -276,7 +279,7 @@ class Mini extends Api
 
         $data = $this->request->domain() . '?pid=' . $user_info->id;
 
-        $outfile = ROOT_PATH . 'public' . DS . 'qrcode' . DS . $user_info->id . '_' .  time() . '.jpg';
+        $outfile = ROOT_PATH . 'public' . '/qrcode/' . $user_info->id . '_' .  time() . '.jpg';
 
         $level = 'L';
         $size = 4;
@@ -461,9 +464,4 @@ class Mini extends Api
         }
         $this->success('登录成功');
     }
-
-
-
-
-
 }

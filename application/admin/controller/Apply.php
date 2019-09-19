@@ -42,9 +42,10 @@ class Apply extends Backend
             }
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
 
-            // 如果是客户经理登录， 只显示分配到他名下的申请
+
             $user_info = $this->auth->getUserInfo($this->auth->id);
 
+            // 如果是客户经理登录， 只显示分配到他名下的申请
             if ($user_info['role'] == 3) {
                 $where = ['admin_id' => $user_info['id']];
             }
@@ -57,14 +58,31 @@ class Apply extends Backend
                 ->order($sort, $order)
                 ->count();
 
-            $list = $this->model
+            $query = $this->model
                 ->with('user')
                 ->with('admin')
                 ->with('product')
                 ->where($where)
                 ->order($sort, $order)
-                ->limit($offset, $limit)
-                ->select();
+                ->limit($offset, $limit);
+
+            // 如果是风控初审登录， 只显示上传了尽调报告且给出初审额度的申请
+            if ($user_info['role'] == 5) {
+                $query->whereNotNull('report_fund_time');
+                $query->where('first_check_fund', '>', 0);
+            }
+
+            // 如果是风控中审登录， 只显示初审通过的申请
+            if ($user_info['role'] == 6) {
+                $query->whereNotNull('first_check_time');
+            }
+
+            // 如果是风控终审登录， 只显示中审通过的申请
+            if ($user_info['role'] == 7) {
+                $query->whereNotNull('middle_check_time');
+            }
+
+            $list = $query->select();
 
             $list = collection($list)->toArray();
             $result = array("total" => $total, "rows" => $list, 'text' => 'aaa');
@@ -331,7 +349,11 @@ class Apply extends Backend
         }
     }
 
-
+    /**
+     * 风控初审
+     * @param null $ids
+     * @throws \think\exception\DbException
+     */
     public function first_check($ids = null)
     {
         $row = $this->model->get($ids);
@@ -345,6 +367,11 @@ class Apply extends Backend
         }
     }
 
+    /**
+     * 风控中审
+     * @param null $ids
+     * @throws \think\exception\DbException
+     */
     public function middle_check($ids = null)
     {
         $row = $this->model->get($ids);
@@ -365,10 +392,21 @@ class Apply extends Backend
         }
     }
 
+    /**
+     * 风控终审
+     * @param null $ids
+     * @throws \think\exception\DbException
+     */
     public function final_check($ids = null)
     {
         $row = $this->model->get($ids);
         if ($this->request->isPost()) {
+            $final_check_fund = $this->request->request('final_check_fund');
+
+            if (empty($final_check_fund) || $final_check_fund <= 0) {
+                $this->error('请给出终审额度!');
+            }
+
             // 如果审核驳回，则不显示
             if ($row->status == 2) {
                 $this->error('申请数据错误');
@@ -379,13 +417,19 @@ class Apply extends Backend
                 $this->error('申请数据错误');
             }
 
+            // 如果额度小于60万， 风控终审通过后就算完成
+            if ($final_check_fund < 600000) {
+                $row->status = 3;
+            }
+
+
             $row->final_check_time = date('Y-m-d H:i:s', time());
-
-            
-
+            $row->final_check_fund = $final_check_fund;
             $row->save();
             $this->success('终审通过!');
         }
+        $this->view->assign('row', $row);
+        return $this->view->fetch();
     }
 
 
