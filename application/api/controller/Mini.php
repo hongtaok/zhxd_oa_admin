@@ -436,16 +436,20 @@ class Mini extends Api
         }
 
         $auth_data = webapp_auth($data['code']);
+
         $openid = $auth_data['openid'];
         $session_key = $auth_data['session_key'];
+        if (!empty($auth_data['unionid'])) {
+            $unionid = $auth_data['unionid'];
+        }
 
         $user_info = $user_model->where('openid', '=', $openid)->find();
-
         if (empty($user_info)) {
             $user_model->nickname = $data['nickname'];
             $user_model->avatar = $data['avatar'];
             $user_model->openid = $openid;
             $user_model->session_key = $session_key;
+            $user_model->unionid = $unionid;
 
             if (!empty($pid)) {
                 $user_model->pid = $pid;
@@ -455,6 +459,11 @@ class Mini extends Api
             $user_id = $user_model->getLastInsID();
         } else {
             $user_id = $user_info->id;
+
+            if (empty($user_info->unionid) && !empty($unionid)) {
+                $user_info->unionid = $unionid;
+                $user_info->save();
+            }
         }
 
         // 返回 user_id  和  session_key 前端保存

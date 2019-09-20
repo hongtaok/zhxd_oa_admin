@@ -192,19 +192,18 @@ class Manager extends Api
     public function apply_info()
     {
         $id = $this->request->request('id');
-
         if (empty($id)) {
             $this->error('参数错误');
         }
 
         $apply_model = new Apply();
         $apply_info = $apply_model
-            ->field('id,product_id,user_id,admin_id,status,apply_time,city')
+            ->field('id,product_id,user_id,admin_id,status,apply_time,city,first_check_fund,first_check_time,middle_check_time,final_check_time,reject_time')
             ->with(['product' => function ($query) {
                 $query->field('id, name');
             }])
             ->with(['user' => function ($query) {
-                $query->field('id,username,mobile,prevtime,logintime,jointime');
+                $query->field('id,username,mobile,id_number,prevtime,logintime,jointime');
             }])
             ->where('id', '=', $id)
             ->find();
