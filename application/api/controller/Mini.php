@@ -14,19 +14,23 @@ use app\admin\model\Article;
 use app\admin\model\ArticleCategory;
 use app\admin\model\Config;
 use app\admin\model\Message;
+use app\admin\model\WechatUser;
 use app\common\controller\Api;
 use EasyWeChat;
 use fast\Tree;
+use Illuminate\Log\Logger;
 use think\Db;
 use fast\Random;
 use think\Log;
 use think\Validate;
 use QRcode;
+use EasyWeChat\Foundation;
+use EasyWeChat\Foundation\Application;
 
 class Mini extends Api
 {
     // 无需登录的接口,*表示全部
-    protected $noNeedLogin = ['check_auth', 'user_info', 'user_team', 'user_team_applies', 'apply', 'user_applies', 'user_apply', 'promote', 'articles', 'company_info', 'message', 'auth', 'login'];
+    protected $noNeedLogin = ['check_auth', 'user_info', 'user_team', 'user_team_applies', 'apply', 'user_applies', 'user_apply', 'promote', 'articles', 'company_info', 'message', 'auth', 'login', 'wechat_test', 'wechat_user_list_init'];
     // 无需鉴权的接口,*表示全部
     protected $noNeedRight = [];
 
@@ -426,6 +430,10 @@ class Mini extends Api
         $data['avatar'] = $this->request->request('avatar');
         $pid = $this->request->request('pid');
 
+//        $data['pid'] = $pid;
+//        Log::write($data);
+//        exit;
+
         $validate = new Validate([
             'code' => 'require',
             'nickname' => 'require',
@@ -495,4 +503,79 @@ class Mini extends Api
         }
         $this->success('登录成功');
     }
+
+    /**
+     * 发送微信模板通知（测试）
+     * @return \think\response\Json
+     * @throws EasyWeChat\Core\Exceptions\InvalidArgumentException
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function wechat_test()
+    {
+        $user_info = $this->check_auth();
+
+        $wechat_user_model = new WechatUser();
+        $wechat_user_info = $wechat_user_model->where('unionid', '=', $user_info['unionid'])->find();
+
+        $wechat_config = get_addon_config('wechat');
+        $app = new Application($wechat_config);
+
+        if (!empty($wechat_user_info)) {
+            $data['template_id'] = "2Gschngiyq7tfIcfkUjjSL7eexjdEd9Txl_k8DlGHrA";
+            $data['touser'] = $wechat_user_info->openid;
+            $data['data'] = [
+                "first" => [
+                    "value" => "您的审核已经通过！",
+                    "color" => "#173177"
+                ],
+                "keyword1" => [
+                    "value" => "风控初审",
+                    "color" => "#173177"
+                ],
+                "keyword2" => [
+                    "value" => "10000",
+                    "color" => "#173177"
+                ],
+                "keyword3" => [
+                    "value" => "2014年9月22日",
+                    "color" => "#173177"
+                ],
+                "remark" => [
+                    "value" => "中汇鑫德",
+                    'color' => '#173177'
+                ]
+            ];
+
+            $res = $app->notice->send($data);
+        }
+
+        return json($res);
+    }
+
+    /**
+     * 初始化服务号粉丝数据（清空 并 全部插入）
+     * @throws \Exception
+     */
+    public function wechat_user_list_init()
+    {
+        Db::query('truncate table oa_wechat_user');
+
+        $wechat_config = get_addon_config('wechat');
+        $app = new Application($wechat_config);
+        $user_list = $app->user->lists();
+
+        $wechat_user_model = new WechatUser();
+
+        $user_list = array_chunk($user_list['data']['openid'], 100);
+        if (!empty($user_list)) {
+            foreach ($user_list as $list) {
+                $user_info_list = $app->user->batchGet($list);
+                $user_info_list = $user_info_list['user_info_list'];
+                $wechat_user_model->saveAll($user_info_list);
+            }
+        }
+    }
+
 }
