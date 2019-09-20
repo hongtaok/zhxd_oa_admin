@@ -127,7 +127,7 @@ class Mini extends Api
         $user_teams = $this->user_team(true);
         $users = array_merge($user_teams['first'], $user_teams['second']);
 
-        $applies = [];
+        $applies['list'] = [];
         if (!empty($users)) {
             foreach ($users as $key => &$val) {
                 $user_applies = Db::table('oa_apply')->field('id, product_id, user_id, admin_id, first_check_fund, final_check_fund, final_check_time, status')->where('user_id', $val['id'])->where('status', 3)->select();
