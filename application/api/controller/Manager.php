@@ -17,6 +17,7 @@ use app\common\controller\Api;
 use fast\Tree;
 use think\Validate;
 use fast\Random;
+use app\admin\model\User;
 
 class Manager extends Api
 {
@@ -124,6 +125,13 @@ class Manager extends Api
 
         $admin_info = $admin_model->where('id', $admin_id)->find();
         $admin_info['department_full_names'] = $this->getDepartmentParentNames($admin_info->department_id);
+
+        if (in_array($admin_info['role'], [1,2,3])) {
+            $admin_info['is_manager'] = 0;
+        } elseif (in_array($admin_info['role'], [4,5,6,7,8,9,10,11,12])) {
+            $admin_info['is_manager'] = 1;
+        }
+
         $this->success('', $admin_info);
     }
 
@@ -189,6 +197,12 @@ class Manager extends Api
 
     }
 
+    /**
+     * 贷款申请详情
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function apply_info()
     {
         $id = $this->request->request('id');
@@ -213,6 +227,73 @@ class Manager extends Api
         }
 
         $this->success('', ['apply_info' => $apply_info]);
+    }
+
+    /**
+     * 员工端 - 我的客户
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function admin_users()
+    {
+        $admin_id = $this->request->request('admin_id');
+
+        if (empty($admin_id)) {
+            $this->error('参数错误');
+        }
+
+        $admin_model = new Admin();
+        $admin_info = $admin_model->where('id', '=', $admin_id)->find();
+        if (empty($admin_info)) {
+            $this->error('员工信息错误');
+        }
+
+        $apply_model = new Apply();
+        $user_ids = $apply_model->field('user_id')->where('admin_id', '=', $admin_id)->select();
+        $user_ids = array_unique(array_column($user_ids, 'user_id'));
+
+        $user_model = new User();
+        $users = $user_model->field('id,username,avatar,mobile,id_number,pid')->whereIn('id', $user_ids)->select();
+
+        if (!empty($users)) {
+            foreach ($users as &$user) {
+                $user['team'] = $user->team();
+            }
+        }
+
+        $this->success('', $users);
+
+    }
+
+
+    public function admins()
+    {
+        $admin_id = $this->request->request('admin_id');
+        if (empty($admin_id)) {
+            $this->error('参数错误');
+        }
+
+        $admin_model = new Admin();
+        $admin_info = $admin_model->where('id', '=', $admin_id)->find();
+
+        $admin_roles = $admin_model->getRoleList();
+
+        if (!in_array($admin_info->id, array_keys($admin_roles))) {
+            $this->error('管理员角色信息错误');
+        }
+
+        // 普通员工（客户经理）
+        if (in_array($admin_info->id, [1,2,3])) {
+
+        }
+
+        // 客户部负责人
+        if ($admin_info->id == 4) {
+            $users = $admin_model->where('department_id', '=', $admin_info->department_id)->where('role', '=', 3)->select();
+        }
+
+        $this->success('', $users);
     }
 
 

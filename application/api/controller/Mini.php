@@ -66,6 +66,10 @@ class Mini extends Api
     public function user_info()
     {
         $user_info = $this->check_auth();
+
+//        Log::write($user_info);
+
+
         $this->success($user_info);
     }
 
@@ -144,6 +148,7 @@ class Mini extends Api
                             $user_apply['apply_income'] = $user_apply['final_check_fund'] * $scale_two->value;
                         }
                         $user_apply['product_name'] = Db::table('oa_product')->where('id', $user_apply['product_id'])->column('name')[0];
+                        $user_apply['admin_username'] = Db::table('oa_admin')->where('id', $user_apply['admin_id'])->column('username')[0];
                         $user_apply['user_info'] = $val;
                         $applies['list'][] = $user_apply;
                     }
@@ -429,10 +434,8 @@ class Mini extends Api
         $data['nickname'] = $this->request->request('nickname');
         $data['avatar'] = $this->request->request('avatar');
         $pid = $this->request->request('pid');
-
 //        $data['pid'] = $pid;
-//        Log::write($data);
-//        exit;
+
 
         $validate = new Validate([
             'code' => 'require',
@@ -457,7 +460,10 @@ class Mini extends Api
             $user_model->avatar = $data['avatar'];
             $user_model->openid = $openid;
             $user_model->session_key = $session_key;
-            $user_model->unionid = $unionid;
+
+            if (!empty($auth_data['unionid']) && isset($unionid)) {
+                $user_model->unionid = $unionid;
+            }
 
             if (!empty($pid)) {
                 $user_model->pid = $pid;
@@ -547,7 +553,6 @@ class Mini extends Api
                     'color' => '#173177'
                 ]
             ];
-
             $res = $app->notice->send($data);
         }
 

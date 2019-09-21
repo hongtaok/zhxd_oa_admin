@@ -2,6 +2,7 @@
 
 namespace app\admin\model;
 
+use fast\Tree;
 use think\Model;
 use think\Session;
 
@@ -16,6 +17,7 @@ class Admin extends Model
 
     protected $append = [
         'role_text',
+        'department_name',
     ];
 
     /**
@@ -63,6 +65,17 @@ class Admin extends Model
         $value = $value ? $value : (isset($data['role']) ? $data['role'] : '');
         $list = $this->getRoleList();
         return isset($list[$value]) ? $list[$value] : '';
+    }
+
+    public function getDepartmentNameAttr($department_id)
+    {
+        $tree = Tree::instance();
+        $department_model = new Department();
+        $departments = collection($department_model->select())->toArray();
+        $tree->init($departments);
+
+        $department_parents = $tree->getParentsNames($this->department_id, true);
+        return $department_parents_name = implode('-', $department_parents);
     }
 
 }

@@ -3,6 +3,7 @@
 namespace app\admin\model;
 
 use app\common\model\MoneyLog;
+use think\Db;
 use think\Model;
 
 class User extends Model
@@ -17,9 +18,9 @@ class User extends Model
     protected $updateTime = 'updatetime';
     // 追加属性
     protected $append = [
-        'prevtime_text',
-        'logintime_text',
-        'jointime_text',
+//        'prevtime_text',
+//        'logintime_text',
+//        'jointime_text',
     ];
 
     public function getOriginData()
@@ -104,6 +105,46 @@ class User extends Model
     public function applies()
     {
         return $this->hasMany('Apply');
+    }
+
+    public function team()
+    {
+        $user_team_first = $this->field('id, username, mobile, nickname, avatar, pid')->where('pid', '=', $this->id)->select();
+
+        $config_model = new Config();
+
+        if (!empty($user_team_first)) {
+            $scale_one = $config_model->where('name', '=', 'scale_one')->find();
+            foreach ($user_team_first as $user_own_key => &$user_own_val) {
+                $user_own_val['tier'] = 1;
+                $user_own_val['apply_total'] = Db::table('oa_apply')->where('user_id', '=', $user_own_val['id'])->where('status', '=', 3)->sum('final_check_fund');
+                $user_own_val['income'] = $user_own_val['apply_total'] * $scale_one->value;
+                $user_team_second_ids[] = $user_own_val['id'];
+            }
+        }
+
+        if (!empty($user_team_second_ids)) {
+            $scale_two = $config_model->where('name', '=', 'scale_two')->find();
+            $user_team_second = Db::table('oa_user')->field('id, username, mobile, nickname, avatar, pid')->whereIn('pid', $user_team_second_ids)->select();
+            if (!empty($user_team_second)) {
+                foreach ($user_team_second as $user_own_key1 => &$user_own_val1) {
+                    $user_own_val1['tier'] = 2;
+                    $user_own_val1['apply_total'] = Db::table('oa_apply')->where('user_id', '=', $user_own_val1['id'])->where('status', '=', 3)->sum('final_check_fund');
+                    $user_own_val1['income'] = $user_own_val1['apply_total'] * $scale_two->value;
+                }
+            }
+        } else {
+            $user_team_second = [];
+        }
+        $first_total = count($user_team_first);
+        $second_total = count($user_team_second);
+        $user_team_total = $first_total + $second_total;
+
+        $first_income = array_sum(array_column($user_team_first, 'income'));
+        $second_income = array_sum(array_column($user_team_second, 'income'));
+
+        $data = ['total' => $user_team_total, 'income_total' => $first_income + $second_income, 'first_total' => $first_total, 'second_total' => $second_total, 'first' => $user_team_first, 'second' => $user_team_second];
+        return $data;
     }
 
 }
