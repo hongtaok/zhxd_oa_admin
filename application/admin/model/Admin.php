@@ -78,4 +78,10 @@ class Admin extends Model
         return $department_parents_name = implode('-', $department_parents);
     }
 
+    public function users()
+    {
+        return $this->hasMany('User');
+    }
+
+
 }

@@ -107,10 +107,16 @@ class User extends Model
         return $this->hasMany('Apply');
     }
 
-    public function team()
+    public function team($admin_id = 0)
     {
-        $user_team_first = $this->field('id, username, mobile, nickname, avatar, pid')->where('pid', '=', $this->id)->select();
+        $this->field('id, admin_id, username, mobile, nickname, avatar, pid');
+        if (empty($admin_id)) {
+            $this->where('pid', '=', $this->id);
+        } else {
+            $this->where('admin_id', '=', $admin_id);
+        }
 
+        $user_team_first = $this->select();
         $config_model = new Config();
 
         if (!empty($user_team_first)) {
@@ -123,9 +129,15 @@ class User extends Model
             }
         }
 
+        $user_model = new User();
         if (!empty($user_team_second_ids)) {
             $scale_two = $config_model->where('name', '=', 'scale_two')->find();
-            $user_team_second = Db::table('oa_user')->field('id, username, mobile, nickname, avatar, pid')->whereIn('pid', $user_team_second_ids)->select();
+            $query = $user_model->field('id, admin_id, username, mobile, nickname, avatar, pid')->whereIn('pid', $user_team_second_ids);
+            if (!empty($admin_id)) {
+                $query->where('admin_id', '<>', $admin_id);
+            }
+
+            $user_team_second = $user_model->select();
             if (!empty($user_team_second)) {
                 foreach ($user_team_second as $user_own_key1 => &$user_own_val1) {
                     $user_own_val1['tier'] = 2;

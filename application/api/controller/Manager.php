@@ -11,10 +11,12 @@ namespace app\api\controller;
 
 use app\admin\model\Admin;
 use app\admin\model\Apply;
+use app\admin\model\Config;
 use app\admin\model\Department;
 use app\admin\model\Employee;
 use app\common\controller\Api;
 use fast\Tree;
+use think\Db;
 use think\Validate;
 use fast\Random;
 use app\admin\model\User;
@@ -175,12 +177,10 @@ class Manager extends Api
     {
         $admin_id = $this->request->request('admin_id');
         $status = $this->request->request('status');
-        $start_time = $this->request->request('start_time') . ' 00:00:00';
-        $end_time = $this->request->request('end_time') . ' 24:00:00';
 
         $apply_model = new Apply();
-        $applies = $apply_model
-            ->field('id,product_id,user_id,admin_id,status,apply_time,city')
+        $query = $apply_model
+            ->field('id,product_id,user_id,admin_id,status,apply_time,city,first_check_fund,final_check_fund')
             ->with(['product' => function ($query) {
                 $query->field('id,name,evidence_ids');
             }])
@@ -188,13 +188,75 @@ class Manager extends Api
                 $query->field('id,username,mobile,prevtime,logintime,jointime');
             }])
             ->where('admin_id', '=', $admin_id)
-            ->where('status', '=', $status)
-            ->where('apply_time', '>', $start_time)
-            ->where('apply_time', '<', $end_time)
-            ->select();
+            ->where('status', '=', $status);
 
+        $start_time = $this->request->request('start_time');
+        $end_time = $this->request->request('end_time');
+
+        if (!empty($start_time) && !empty($end_time)) {
+            $start_time = $start_time . ' 00:00:00';
+            $end_time = $end_time . ' 24:00:00';
+            $query->where('apply_time', '>', $start_time);
+            $query->where('apply_time', '<', $end_time);
+        }
+
+        $applies = $query->select();
         $this->success('', ['applies' => $applies]);
+    }
 
+    /**
+     * 我的团队
+     * @return \think\response\Json
+     */
+    public function team()
+    {
+        $admin_id = $this->request->request('admin_id');
+        $user_model = new User();
+        $team = $user_model->team($admin_id);
+        $this->success('', $team);
+    }
+
+    /**
+     * 我的业绩
+     * @return \think\response\Json
+     */
+    public function team_applies()
+    {
+        $admin_id = $this->request->request('admin_id');
+        $user_model = new User();
+        $team = $user_model->team($admin_id);
+
+        $config_model = new Config();
+        $scale_one = $config_model->where('name', '=', 'scale_one')->find();
+        $scale_two = $config_model->where('name', '=', 'scale_two')->find();
+
+        $users = array_merge($team['first'], $team['second']);
+
+        $applies['list'] = [];
+        if (!empty($users)) {
+            foreach ($users as $key => &$val) {
+                $user_applies = Db::table('oa_apply')->field('id, product_id, user_id, admin_id, first_check_fund, final_check_fund, final_check_time, status')->where('user_id', $val['id'])->where('status', 3)->select();
+                if (!empty($user_applies)) {
+                    foreach ($user_applies as &$user_apply) {
+                        if ($val['tier'] == 1) {
+                            $user_apply['apply_income'] = $user_apply['final_check_fund'] * $scale_one->value;
+                        }
+                        if ($val['tier'] == 2) {
+                            $user_apply['apply_income'] = $user_apply['final_check_fund'] * $scale_two->value;
+                        }
+                        $user_apply['product_name'] = Db::table('oa_product')->where('id', $user_apply['product_id'])->column('name')[0];
+                        $user_apply['admin_username'] = Db::table('oa_admin')->where('id', $user_apply['admin_id'])->column('username')[0];
+                        $user_apply['user_info'] = $val;
+                        $applies['list'][] = $user_apply;
+                    }
+                }
+            }
+        }
+
+        $applies['total_apply_income'] = array_sum(array_column($applies['list'], 'apply_income'));
+        $applies['total_user_team'] = count($users);
+
+        $this->success('', $applies);
     }
 
     /**
@@ -249,24 +311,25 @@ class Manager extends Api
             $this->error('员工信息错误');
         }
 
-        $apply_model = new Apply();
-        $user_ids = $apply_model->field('user_id')->where('admin_id', '=', $admin_id)->select();
-        $user_ids = array_unique(array_column($user_ids, 'user_id'));
-
-        $user_model = new User();
-        $users = $user_model->field('id,username,avatar,mobile,id_number,pid')->whereIn('id', $user_ids)->select();
-
+        $team_total = 0;
+        $users = $admin_model->users;
         if (!empty($users)) {
             foreach ($users as &$user) {
                 $user['team'] = $user->team();
+                $team_total += $user['team']['total'];
             }
         }
 
-        $this->success('', $users);
-
+        $user_team_total = count($users) + $team_total;
+        $this->success('', ['list' => $users, 'user_team_total' => $user_team_total]);
     }
 
-
+    /**
+     * 我的员工
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function admins()
     {
         $admin_id = $this->request->request('admin_id');
@@ -295,29 +358,5 @@ class Manager extends Api
 
         $this->success('', $users);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
