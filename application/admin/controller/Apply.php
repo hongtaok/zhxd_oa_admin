@@ -256,9 +256,9 @@ class Apply extends Backend
             $row->save();
 
             $param_admin_info = $admin_model->where('id', $params['admin_id'])->find();
-            send_system_notice($row->id, '您有新的贷款申请分配', '您有新的贷款申请分配', $row->user_id, $params['admin_id']);
+            send_system_notice($row->id, '您有新的贷款申请分配', '您有新的贷款申请分配，请尽快上传尽调报告确定初始额度', $row->user_id, $params['admin_id']);
             if (!empty($param_admin_info) && !empty($param_admin_info->unionid)) {
-                send_wechat_notice($param_admin_info->unionid, '您有新的贷款申请分配', '贷款申请分配', '已分配');
+                send_wechat_notice($param_admin_info->unionid, '您有新的贷款申请分配，请尽快上传尽调报告确定初始额度', '贷款申请分配', '已分配');
             }
 
             $this->success('分配成功', '');

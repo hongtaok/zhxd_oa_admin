@@ -68,6 +68,11 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                         if (row.upload_evidence_time == '' || row.upload_evidence_time == null || row.upload_evidence_time == 'undefined') {
                                             return false;
                                         }
+
+                                        // 如果已经分配了客户经理，则不显示
+                                        if (row.admin_id) {
+                                            return false;
+                                        }
                                         return true;
                                     }
                                 },
@@ -262,7 +267,6 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
             Controller.api.bindevent();
         },
         allot: function () {
-
             $("#c-admin_id").data("params", function(){
                 return {"custom[role]":"3"};
             });
