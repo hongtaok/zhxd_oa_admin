@@ -7,7 +7,11 @@ use app\admin\model\User;
 use app\common\controller\Backend;
 use fast\Auth;
 use think\Db;
+use think\Exception;
+use think\Log;
 use think\Validate;
+use EasyWeChat\Foundation\Application;
+use app\admin\model\WechatUser;
 
 /**
  * 贷款申请管理
@@ -245,7 +249,18 @@ class Apply extends Backend
                 $user_info->save();
             }
 
+            // 发送系统和微信通知给客户和客户经理
+            send_system_notice($row->id, '您的贷款申请已分配', '您的贷款申请已分配客户经理', $row->user_id);
+            send_wechat_notice($user_info->unionid, '您的贷款申请已分配', '贷款申请分配', '已分配');
+
             $row->save();
+
+            $param_admin_info = $admin_model->where('id', $params['admin_id'])->find();
+            send_system_notice($row->id, '您有新的贷款申请分配', '您有新的贷款申请分配', $row->user_id, $params['admin_id']);
+            if (!empty($param_admin_info) && !empty($param_admin_info->unionid)) {
+                send_wechat_notice($param_admin_info->unionid, '您有新的贷款申请分配', '贷款申请分配', '已分配');
+            }
+
             $this->success('分配成功', '');
         }
 
@@ -451,6 +466,7 @@ class Apply extends Backend
         $this->view->assign('row', $row);
         return $this->view->fetch();
     }
+
 
 
 }

@@ -2,6 +2,63 @@
 
 // 公共助手函数
 
+// 发送系统通知
+function send_system_notice($apply_id, $title, $content, $user_id = 0, $admin_id  = 0)
+{
+    $apply_notice_model = new \app\admin\model\ApplyNotice();
+    $data['apply_id'] = $apply_id;
+    $data['title'] = $title;
+    $data['content'] = $content;
+    $data['user_id'] = $user_id;
+    $data['admin_id'] = $admin_id;
+
+    $res = $apply_notice_model->save($data);
+    return $res;
+}
+
+// 发送微信通知
+function send_wechat_notice($unionid, $first, $keyword1, $keyword2)
+{
+    $wechat_user_model = new \app\admin\model\WechatUser();
+    $wechat_user_info = $wechat_user_model->where('unionid', '=', $unionid)->find();
+
+    if (empty($wechat_user_info)) {
+        throw new \think\Exception('该用户未关注服务号，无法发送通知消息');
+    }
+
+    $wechat_config = get_addon_config('wechat');
+    $app = new \EasyWeChat\Foundation\Application($wechat_config);
+
+    if (!empty($wechat_user_info)) {
+        $data['template_id'] = "2Gschngiyq7tfIcfkUjjSL7eexjdEd9Txl_k8DlGHrA";
+        $data['touser'] = $wechat_user_info->openid;
+        $data['data'] = [
+            "first" => [
+                "value" => $first,
+                "color" => "#173177"
+            ],
+            "keyword1" => [//项目名称
+                "value" => $keyword1,
+                "color" => "#173177"
+            ],
+            "keyword2" => [//审核结果
+                "value" => $keyword2,
+                "color" => "#173177"
+            ],
+            "keyword3" => [//时间
+                "value" => date('Y-m-d H:i:s', time()),
+                "color" => "#173177"
+            ],
+            "remark" => [
+                "value" => "中汇鑫德",
+                'color' => '#173177'
+            ]
+        ];
+        $res = $app->notice->send($data);
+    }
+}
+
+
 if (!function_exists('__')) {
 
     /**
@@ -362,3 +419,5 @@ if (!function_exists('hsv2rgb')) {
         ];
     }
 }
+
+

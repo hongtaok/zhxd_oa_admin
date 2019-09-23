@@ -96,12 +96,18 @@ class Manager extends Api
             $auth_data = webapp_auth($params['code'], true);
             $data['openid'] = $auth_data['openid'];
             $data['session_key'] = $auth_data['session_key'];
+            $data['unionid'] = $auth_data['unionid'];
 
             if (empty($user_info['is_bind']) && empty($user_info['openid']) && empty($user_info['session_key'])) {
                 $user_info->openid = $data['openid'];
                 $user_info->session_key = $data['session_key'];
                 $user_info->nickname = $params['nickname'];
                 $user_info->avatar = $params['avatar'];
+
+                if (!empty($data['unionid'])) {
+                    $user_info->unionid = $data['unionid'];
+                }
+
                 $user_info->is_bind = 1;
                 $user_info->save();
                 $this->success('授权绑定成功', $user_info);
@@ -139,7 +145,7 @@ class Manager extends Api
             $QRcode->png($data, $outfile, $level, $size, 2);
 
             $path_info = pathinfo($outfile);
-            $qrcode_url = $this->request->domain() . DS . 'qrcode' . DS . $path_info['basename'];
+            $qrcode_url = $this->request->domain() . '/qrcode/' . $path_info['basename'];
 
             $admin_info->promote_code = $qrcode_url;
             $admin_info->save();
