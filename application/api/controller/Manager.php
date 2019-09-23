@@ -20,6 +20,7 @@ use think\Db;
 use think\Validate;
 use fast\Random;
 use app\admin\model\User;
+use QRcode;
 
 class Manager extends Api
 {
@@ -126,6 +127,24 @@ class Manager extends Api
         }
 
         $admin_info = $admin_model->where('id', $admin_id)->find();
+
+        if (empty($admin_info['promote_code'])) {
+            $data = $this->request->domain() . '?admin_id=' . $admin_info['id'];
+            $outfile = ROOT_PATH . 'public' . '/qrcode/admin_' . $admin_info['id'] . '_' .  time() . '.jpg';
+
+            $level = 'L';
+            $size = 4;
+            $QRcode = new QRcode();
+            ob_start();
+            $QRcode->png($data, $outfile, $level, $size, 2);
+
+            $path_info = pathinfo($outfile);
+            $qrcode_url = $this->request->domain() . DS . 'qrcode' . DS . $path_info['basename'];
+
+            $admin_info->promote_code = $qrcode_url;
+            $admin_info->save();
+        }
+
         $admin_info['department_full_names'] = $this->getDepartmentParentNames($admin_info->department_id);
 
         if (in_array($admin_info['role'], [1,2,3])) {
@@ -358,5 +377,4 @@ class Manager extends Api
 
         $this->success('', $users);
     }
-
 }
