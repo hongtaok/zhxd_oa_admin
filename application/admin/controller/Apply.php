@@ -235,9 +235,15 @@ class Apply extends Backend
             $row->allot_time = date('Y-m-d H:i:s', time());
 
             $user_model = new User();
-            $user_info = $user_model->where($row->user_id)->find();
-            $user_info->admin_id = $params['admin_id'];
-            $user_info->save();
+            $user_info = $user_model->where('id', $row->user_id)->find();
+
+            if (!empty($user_info['admin_id']) && $user_info->admin_id != $params['admin_id']) {
+                $allot_admin_info = $admin_model->where('id', $user_info->admin_id)->find();
+                $this->error('用户 ' . $user_info->username . ' 已经分配给客户经理' . $allot_admin_info->username);
+            } else {
+                $user_info->admin_id = $params['admin_id'];
+                $user_info->save();
+            }
 
             $row->save();
             $this->success('分配成功', '');
