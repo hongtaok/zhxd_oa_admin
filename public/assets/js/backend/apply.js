@@ -262,6 +262,11 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
             Controller.api.bindevent();
         },
         allot: function () {
+
+            $("#c-admin_id").data("params", function(){
+                return {"custom[role]":"3"};
+            });
+
             Controller.api.bindevent();
         },
         report_check_fund: function () {

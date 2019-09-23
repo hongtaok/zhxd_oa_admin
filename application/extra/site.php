@@ -42,4 +42,6 @@ return array (
   'company_product_desc' => '小额贷款',
   'scale_one' => '0.1',
   'scale_two' => '0.05',
+  'lgt' => '112.564005',
+  'lat' => '37.786904',
 );
