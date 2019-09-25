@@ -396,58 +396,162 @@ class Manager extends Api
     }
 
     /**
-     * 统计
+     * 订单统计
      */
     public function stat()
     {
         $apply_model = new Apply();
-
         $type = $this->request->request('type');
 
-        switch ($type)
-        {
-            case 'week':
-                $week_field = ['count(*) as count', 'DAYOFWEEK(apply_time) as day_week'];
-                // 获取本周的申请
-                $list = $apply_model->field($week_field)->whereTime('apply_time', 'week')->group('day_week')->select();
-                break;
-            case 'last_week':
-                $last_week_field = ['count(*) as count', 'id', 'product_id', 'user_id', 'admin_id', 'first_check_fund', 'DAYOFWEEK(apply_time) as day_week', 'apply_time'];
-                $list = $apply_model->field($last_week_field)->whereTime('apply_time', 'last week')->select();
-                break;
-            case 'month':
-                $last_week_field = ['count(*) as count', 'id', 'product_id', 'user_id', 'admin_id', 'first_check_fund', 'DAYOFWEEK(apply_time) as day_week', 'apply_time'];
-                $list = $apply_model->whereTime('apply_time', 'month')->select();
-                break;
-            case 'last_month':
-                $last_week_field = ['count(*) as count', 'id', 'product_id', 'user_id', 'admin_id', 'first_check_fund', 'DAYOFWEEK(apply_time) as day_week', 'apply_time'];
-                $list = $apply_model->whereTime('apply_time', 'last month')->select();
-                break;
-            default:
-                $this->error('参数类型错误');
+        if (in_array($type, array('week', 'last_week'))) {
+            $where_time = $type == 'week' ? 'week' : 'last week';
+            $field = ['count(*) as count', 'DAYOFWEEK(apply_time) as date'];
+        } elseif (in_array($type, array('month', 'last_month'))) {
+            $where_time = $type == 'month' ? 'month' : 'last month';
+            $field = ['count(*) as count','DAYOFMONTH(apply_time) as date', 'apply_time'];
+        } else {
+            $this->error('参数类型错误');
         }
 
+        $list = $apply_model->field($field)->whereTime('apply_time', $where_time)->group('date')->select();
+        $data['x'] = [];
+        $data['y'] = [];
         if (!empty($list)) {
             foreach ($list as $key => &$val) {
-                $val['day_week_name'] = $this->get_week_day($val['day_week']);
-                unset($val['day_week']);
-                unset($val['status_text']);
+                $data['y'][] = $val['count'];
+                if (in_array($type, array('week', 'last_week'))) {
+                    $data['x'][] = $this->get_week_day($val['date']);
+                } elseif (in_array($type, array('month', 'last_month'))) {
+                    $data['x'][] = "'" . $val['date'] . "'";
+                }
             }
         }
 
-        $this->success('', $list);
+        if (empty($data['x'])) {
+            $data['y'] = [0,0,0,0,0,0,0];
+            if (in_array($type, array('week', 'last_week'))) {
+                $data['x'] = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+            } elseif (in_array($type, array('month', 'last_month'))) {
+                $data['x'] = ['1','2','3','4','5','6','7'];
+            }
+        }
+
+        $this->success('', $data);
     }
+
+    /**
+     * 审批统计
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function check_stat()
+    {
+        $apply_model = new Apply();
+        $admin_id = $this->request->request('admin_id');
+        $type = $this->request->request('type');
+        if (empty($type) || !in_array($type, ['week', 'last_week', 'month', 'last_month'])) {
+            $this->error('参数错误');
+        }
+
+        if (in_array($type, array('week', 'last_week'))) {
+            $where_time = $type == 'week' ? 'week' : 'last week';
+        } elseif (in_array($type, array('month', 'last_month'))) {
+            $where_time = $type == 'month' ? 'month' : 'last month';
+        }
+
+        $admin_model = new Admin();
+        $admin_info = $admin_model->where('id', '=', $admin_id)->find();
+
+        if (!empty($admin_info) && $admin_info->role == 3) {
+            $list = $apply_model->field('apply_time, status')->where('admin_id', '=', $admin_id)->whereTime('apply_time', $where_time)->select();
+        } else {
+            $list = $apply_model->field('apply_time, status')->whereTime('apply_time', $where_time)->select();
+        }
+
+        $data = [];
+        if (!empty($list)) {
+            foreach ($list as $key => $val) {
+                $data[$val['status']][] = $val;
+            }
+        }
+
+        $res['x'] = ['未审核', '审核中', '已拒绝', '已通过'];
+
+        $res['y'][] = !empty($data[0]) ? count($data[0]) : 0;
+        $res['y'][] = !empty($data[1]) ? count($data[1]) : 0;
+        $res['y'][] = !empty($data[2]) ? count($data[2]) : 0;
+        $res['y'][] = !empty($data[3]) ? count($data[3]) : 0;
+
+        $this->success('', $res);
+    }
+
+
+    public function user_stat()
+    {
+        $user_model = new User();
+        $type = $this->request->request('type');
+
+        if (in_array($type, array('week', 'last_week'))) {
+            $where_time = $type == 'week' ? 'week' : 'last week';
+            $field = ['count(*) as count', 'DAYOFWEEK(created_time) as date', 'created_time'];
+        } elseif (in_array($type, array('month', 'last_month'))) {
+            $where_time = $type == 'month' ? 'month' : 'last month';
+            $field = ['count(*) as count','DAYOFMONTH(created_time) as date'];
+        } else {
+            $this->error('参数类型错误');
+        }
+
+        $list = $user_model->field($field)->whereTime('created_time', $where_time)->group('date')->select();
+
+
+        $data['x'] = [];
+        $data['y'] = [];
+        if (!empty($list)) {
+            foreach ($list as $key => &$val) {
+                $data['y'][] = $val['count'];
+                if (in_array($type, array('week', 'last_week'))) {
+                    $data['x'][] = $this->get_week_day($val['date']);
+                } elseif (in_array($type, array('month', 'last_month'))) {
+                    $data['x'][] = "'" . $val['date'] . "'";
+                }
+            }
+        }
+
+        if (empty($data['x'])) {
+            $data['y'] = [0,0,0,0,0,0,0];
+            if (in_array($type, array('week', 'last_week'))) {
+                $data['x'] = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+            } elseif (in_array($type, array('month', 'last_month'))) {
+                $data['x'] = ['1','2','3','4','5','6','7'];
+            }
+        }
+
+        $this->success('', $data);
+    }
+
+
+
+    public function get_time_type_name($type)
+    {
+        if (in_array($type, array('week', 'last_week'))) {
+            return 'week';
+        } elseif (in_array($type, array('month', 'last_month'))) {
+            return 'month';
+        }
+    }
+
 
     public function get_week_day($key)
     {
         $week = [
-            0 => '周日',
-            1 => '周一',
-            2 => '周二',
-            3 => '周三',
-            4 => '周四',
-            5 => '周五',
-            6 => '周六',
+            1 => '周日',
+            2 => '周一',
+            3 => '周二',
+            4 => '周三',
+            5 => '周四',
+            6 => '周五',
+            7 => '周六',
         ];
         return $week[$key];
     }
