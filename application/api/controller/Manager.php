@@ -15,12 +15,15 @@ use app\admin\model\Config;
 use app\admin\model\Department;
 use app\admin\model\Employee;
 use app\common\controller\Api;
+use Encore\Admin\Form\Field\Time;
 use fast\Tree;
 use think\Db;
+use think\Log;
 use think\Validate;
 use fast\Random;
 use app\admin\model\User;
 use QRcode;
+
 
 class Manager extends Api
 {
@@ -51,6 +54,8 @@ class Manager extends Api
 
         $user_info = $admin_model->where('username', $params['username'])->find();
 
+        Log::write(['user_info' => $user_info]);
+
         if (empty($user_info)) {
             $this->error('没有记录， 请联系管理员添加员工');
         } else {
@@ -77,6 +82,9 @@ class Manager extends Api
         $params['avatar'] = $this->request->request('avatar');
         $params['nickname'] = $this->request->request('nickname');
         $params['admin_id'] = $this->request->request('admin_id');
+
+
+        Log::write(['params' => $params]);
 
         $validate = new Validate([
             'code' => 'require',
@@ -110,6 +118,9 @@ class Manager extends Api
 
                 $user_info->is_bind = 1;
                 $user_info->save();
+
+                Log::write(['user_info' => $user_info]);
+
                 $this->success('授权绑定成功', $user_info);
             }
 
@@ -383,4 +394,94 @@ class Manager extends Api
 
         $this->success('', $users);
     }
+
+    /**
+     * 统计
+     */
+    public function stat()
+    {
+        $apply_model = new Apply();
+
+        $type = $this->request->request('type');
+
+        switch ($type)
+        {
+            case 'week':
+                $week_field = ['count(*) as count', 'DAYOFWEEK(apply_time) as day_week'];
+                // 获取本周的申请
+                $list = $apply_model->field($week_field)->whereTime('apply_time', 'week')->group('day_week')->select();
+                break;
+            case 'last_week':
+                $last_week_field = ['count(*) as count', 'id', 'product_id', 'user_id', 'admin_id', 'first_check_fund', 'DAYOFWEEK(apply_time) as day_week', 'apply_time'];
+                $list = $apply_model->field($last_week_field)->whereTime('apply_time', 'last week')->select();
+                break;
+            case 'month':
+                $last_week_field = ['count(*) as count', 'id', 'product_id', 'user_id', 'admin_id', 'first_check_fund', 'DAYOFWEEK(apply_time) as day_week', 'apply_time'];
+                $list = $apply_model->whereTime('apply_time', 'month')->select();
+                break;
+            case 'last_month':
+                $last_week_field = ['count(*) as count', 'id', 'product_id', 'user_id', 'admin_id', 'first_check_fund', 'DAYOFWEEK(apply_time) as day_week', 'apply_time'];
+                $list = $apply_model->whereTime('apply_time', 'last month')->select();
+                break;
+            default:
+                $this->error('参数类型错误');
+        }
+
+        if (!empty($list)) {
+            foreach ($list as $key => &$val) {
+                $val['day_week_name'] = $this->get_week_day($val['day_week']);
+                unset($val['day_week']);
+                unset($val['status_text']);
+            }
+        }
+
+        $this->success('', $list);
+    }
+
+    public function get_week_day($key)
+    {
+        $week = [
+            0 => '周日',
+            1 => '周一',
+            2 => '周二',
+            3 => '周三',
+            4 => '周四',
+            5 => '周五',
+            6 => '周六',
+        ];
+        return $week[$key];
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -9,7 +9,9 @@
 namespace app\api\controller;
 
 
+use app\admin\model\Admin;
 use app\admin\model\Apply;
+use app\admin\model\ApplyNotice;
 use app\admin\model\Article;
 use app\admin\model\ArticleCategory;
 use app\admin\model\Config;
@@ -30,7 +32,7 @@ use EasyWeChat\Foundation\Application;
 class Mini extends Api
 {
     // 无需登录的接口,*表示全部
-    protected $noNeedLogin = ['check_auth', 'user_info', 'user_team', 'user_team_applies', 'apply', 'user_applies', 'user_apply', 'promote', 'articles', 'company_info', 'message', 'auth', 'login', 'wechat_test', 'wechat_user_list_init'];
+    protected $noNeedLogin = ['*'];
     // 无需鉴权的接口,*表示全部
     protected $noNeedRight = [];
 
@@ -515,6 +517,61 @@ class Mini extends Api
         $this->success('登录成功');
     }
 
+
+    /**
+     * 系统通知列表
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function notices()
+    {
+        $port = $this->request->request('port');
+        if (empty($port)) {
+            $this->error('参数错误');
+        }
+
+        $apply_notice_model = new ApplyNotice();
+        if ($port == 'c') {
+            $user_info = $this->check_auth();
+
+            $notices = $apply_notice_model->where('user_id', '=', $user_info->id)->order('id', 'desc')->select();
+        } elseif ($port == 'b') {
+            $admin_id = $this->request->request('admin_id');
+            if (empty($admin_id)) {
+                $this->error('参数错误');
+            }
+            $notices = $apply_notice_model->where('admin_id', '=', $admin_id)->order('id', 'desc')->select();
+        }
+
+        $this->success('', $notices);
+    }
+
+    /**
+     * 系统通知详情
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function notice_info()
+    {
+        $id = $this->request->request('id');
+        $apply_notice_model = new ApplyNotice();
+
+        $notice = $apply_notice_model->where('id', '=', $id)->find();
+
+        $notice->is_read = 1;
+        $notice->save();
+
+        $this->success('', $notice);
+    }
+
+    public function cities()
+    {
+        $data = ['太原', '临汾'];
+        return json($data);
+    }
+
     /**
      * 发送微信模板通知（测试）
      * @return \think\response\Json
@@ -587,5 +644,9 @@ class Mini extends Api
             }
         }
     }
+
+
+
+
 
 }

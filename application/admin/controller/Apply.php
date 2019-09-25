@@ -302,6 +302,13 @@ class Apply extends Backend
             $row->report = $params['report'];
             $row->report_fund_time = date('Y-m-d H:i:s', time());
             $row->save();
+
+            // 发送系统和微信通知给客户
+            $user_model = new User();
+            $user_info = $user_model->where('id', $row->user_id)->find();
+            send_system_notice($row->id, '您的贷款申请通过客户经理初审', '客户经理初审', $row->user_id);
+            send_wechat_notice($user_info->unionid, '您的贷款申请通过客户经理初审', '客户经理初审', $params['first_check_fund']);
+
             $this->success('操作成功', '');
         }
 
@@ -397,6 +404,13 @@ class Apply extends Backend
             if ($row->status != 2 && $row->status != 3 && !empty($row->report_fund_time)) {
                 $row->first_check_time = date('Y-m-d H:i:s', time());
                 $row->save();
+
+                // 发送系统和微信通知给客户
+                $user_model = new User();
+                $user_info = $user_model->where('id', $row->user_id)->find();
+                send_system_notice($row->id, '您的贷款申请通过风控部初审', '风控部初审', $row->user_id);
+                send_wechat_notice($user_info->unionid, '您的贷款申请通过风控部初审', '风控部初审', $row->first_check_fund);
+
                 $this->success('初审通过!');
             }
         }
@@ -423,6 +437,13 @@ class Apply extends Backend
 
             $row->middle_check_time = date('Y-m-d H:i:s', time());
             $row->save();
+
+            // 发送系统和微信通知给客户
+            $user_model = new User();
+            $user_info = $user_model->where('id', $row->user_id)->find();
+            send_system_notice($row->id, '您的贷款申请通过风控部中审', '风控部中审', $row->user_id);
+            send_wechat_notice($user_info->unionid, '您的贷款申请通过风控部中审', '风控部中审', $row->first_check_fund);
+
             $this->success('中审通过!');
         }
     }
@@ -437,6 +458,9 @@ class Apply extends Backend
         $row = $this->model->get($ids);
         if ($this->request->isPost()) {
             $final_check_fund = $this->request->request('final_check_fund');
+
+
+
 
             if (empty($final_check_fund) || $final_check_fund <= 0) {
                 $this->error('请给出终审额度!');
@@ -460,7 +484,32 @@ class Apply extends Backend
 
             $row->final_check_time = date('Y-m-d H:i:s', time());
             $row->final_check_fund = $final_check_fund;
+
+
             $row->save();
+
+            // 发送系统和微信通知给客户
+            $user_model = new User();
+            $user_info = $user_model->where('id', $row->user_id)->find();
+            send_system_notice($row->id, '您的贷款申请通过风控部终审', '风控部终审', $row->user_id);
+            send_wechat_notice($user_info->unionid, '您的贷款申请通过风控部终审', '风控部终审', $final_check_fund);
+
+            // 发送通知给客户经理
+            $admin_model = new Admin();
+            $param_admin_info = $admin_model->where('id', $row->admin_id)->find();
+            send_system_notice($row->id, "用户 " . $user_info->username . " 的贷款申请已通过终审", '用户 ' . $user_info->username . " 的贷款申请已通过终审，终审额度为:" . $final_check_fund, $row->user_id, $row->admin_id);
+            if (!empty($param_admin_info) && !empty($param_admin_info->unionid)) {
+                send_wechat_notice($param_admin_info->unionid, "用户 " . $user_info->username . " 的贷款申请已通过终审", '终审通过', $final_check_fund);
+            }
+
+            // 发送通知给客户部负责人
+            $manager_admin_id = Db::table('oa_department_manager')->where('department_id', $param_admin_info->department_id)->column('admin_id');
+            $manager_admin_info = $admin_model->where('id', $manager_admin_id[0])->find();
+            send_system_notice($row->id, "用户 " . $user_info->username . " 的贷款申请已通过终审", '用户 ' . $user_info->username . " 的贷款申请已通过终审，终审额度为:" . $final_check_fund, $row->user_id, $manager_admin_id);
+            if (!empty($manager_admin_info) && !empty($manager_admin_info->unionid)) {
+                send_wechat_notice($manager_admin_info->unionid, "用户 " . $user_info->username . " 的贷款申请已通过终审", '终审通过', $final_check_fund);
+            }
+
             $this->success('终审通过!');
         }
         $this->view->assign('row', $row);

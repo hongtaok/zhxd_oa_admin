@@ -6,10 +6,9 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'think\\helper\\' => array($vendorDir . '/topthink/think-helper/src'),
     'think\\composer\\' => array($vendorDir . '/topthink/think-installer/src'),
     'think\\captcha\\' => array($vendorDir . '/topthink/think-captcha/src'),
-    'think\\' => array($baseDir . '/thinkphp/library/think', $vendorDir . '/karsonzhang/fastadmin-addons/src'),
+    'think\\' => array($vendorDir . '/karsonzhang/fastadmin-addons/src', $baseDir . '/thinkphp/library/think', $vendorDir . '/topthink/think-helper/src'),
     'Symfony\\Polyfill\\Php70\\' => array($vendorDir . '/symfony/polyfill-php70'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Component\\OptionsResolver\\' => array($vendorDir . '/symfony/options-resolver'),
