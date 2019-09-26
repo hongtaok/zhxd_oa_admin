@@ -249,11 +249,18 @@ class Apply extends Backend
                 $user_info->save();
             }
 
+            $row->save();
+
             // 发送系统和微信通知给客户和客户经理
             send_system_notice($row->id, '您的贷款申请已分配', '您的贷款申请已分配客户经理', $row->user_id);
-            send_wechat_notice($user_info->unionid, '您的贷款申请已分配', '贷款申请分配', '已分配');
 
-            $row->save();
+            if (!empty($user_info->unionid)) {
+                $wechat_user_model = new WechatUser();
+                $wechat_user_info = $wechat_user_model->where('unionid', '=', $user_info->unionid)->find();
+                if (!empty($wechat_user_info)){
+                    send_wechat_notice($user_info->unionid, '您的贷款申请已分配', '贷款申请分配', '已分配');
+                }
+            }
 
             $param_admin_info = $admin_model->where('id', $params['admin_id'])->find();
             send_system_notice($row->id, '您有新的贷款申请分配', '您有新的贷款申请分配，请尽快上传尽调报告确定初始额度', $row->user_id, $params['admin_id']);

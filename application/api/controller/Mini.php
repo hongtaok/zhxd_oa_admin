@@ -173,10 +173,17 @@ class Mini extends Api
     public function user_applies()
     {
         $user_info = $this->check_auth();
-
-        $status = $this->request->request('status') ?? 0;
+        $status = $this->request->request('status');
+        $has_status = $this->request->has('status');        // 如果没传status 则查询所有的数据
         $apply_model = new Apply();
-        $applies = $apply_model->with('product')->where('user_id', '=', $user_info->id)->where('status', '=', $status)->select();
+        $query = $apply_model->with('product')->where('user_id', '=', $user_info->id);
+        if (!$has_status) {
+
+        } else {
+            $query->where('status', '=', $status);
+        }
+
+        $applies = $query->select();
         $this->success('', $applies);
     }
 

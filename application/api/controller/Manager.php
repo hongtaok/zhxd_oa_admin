@@ -223,8 +223,14 @@ class Manager extends Api
             ->with(['user' => function ($query) {
                 $query->field('id,username,mobile,prevtime,logintime,jointime');
             }])
-            ->where('admin_id', '=', $admin_id)
             ->where('status', '=', $status);
+
+        $admin_model = new Admin();
+        $admin_info = $admin_model->where('id', '=', $admin_id)->find();
+        // 如果是客户经理， 只显示他名下的申请（其他角色显示全部）
+        if ($admin_info->role == 3) {
+            $query->where('admin_id', '=', $admin_id);
+        }
 
         $start_time = $this->request->request('start_time');
         $end_time = $this->request->request('end_time');
