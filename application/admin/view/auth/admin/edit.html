@@ -55,7 +55,7 @@
 
             <select data-rule="required" class="form-control selectpicker" name="row[role]" id="">
                 {foreach name="roleList" item="vo"}
-                <option value="{$key}" {in name="key" value=""}selected{/in}>
+                <option value="{$key}" {in name="key" value="$row.role"}selected{/in}>
                 {$vo}
                 </option>
                 {/foreach}
