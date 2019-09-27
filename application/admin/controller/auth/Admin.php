@@ -26,6 +26,8 @@ class Admin extends Backend
     protected $childrenGroupIds = [];
     protected $childrenAdminIds = [];
 
+    protected $searchFields = ['username'];
+
     protected $noNeedRight = ['allots'];
 
     public function _initialize()

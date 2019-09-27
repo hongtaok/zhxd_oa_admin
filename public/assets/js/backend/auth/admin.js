@@ -24,9 +24,11 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 });
             });
 
+            $.fn.bootstrapTable.locales[Table.defaults.locale]['formatSearch'] = function(){return "用户名";};
             // 初始化表格
             table.bootstrapTable({
                 url: $.fn.bootstrapTable.defaults.extend.index_url,
+                pageSize:30,
                 columns: [
                     [
                         {field: 'state', checkbox: true, },
