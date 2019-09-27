@@ -448,7 +448,14 @@ class Mini extends Api
         $data['nickname'] = $this->request->request('nickname');
         $data['avatar'] = $this->request->request('avatar');
         $pid = $this->request->request('pid');
-//        $data['pid'] = $pid;
+
+//        $admin_id = 0;
+//        $port = $this->request->request('port');
+//        if (!empty($port) && $port == 'b') {
+//            $admin_id = $pid;
+//        }
+//
+//        Log::write(['data' => $data, 'admin_id' => $admin_id]);
 
 
         $validate = new Validate([
@@ -479,9 +486,16 @@ class Mini extends Api
                 $user_model->unionid = $unionid;
             }
 
+//            Log::write(['is_true' => !empty($pid) && empty($admin_id)]);
+
             if (!empty($pid)) {
                 $user_model->pid = $pid;
             }
+
+            // b端推广扫码
+//            if (!empty($admin_id)) {
+//                $user_model->admin_id = $admin_id;
+//            }
 
             $user_model->save();
             $user_id = $user_model->getLastInsID();
@@ -639,7 +653,6 @@ class Mini extends Api
         $wechat_config = get_addon_config('wechat');
         $app = new Application($wechat_config);
         $user_list = $app->user->lists();
-
         $wechat_user_model = new WechatUser();
 
         $user_list = array_chunk($user_list['data']['openid'], 100);

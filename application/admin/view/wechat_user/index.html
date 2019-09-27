@@ -12,6 +12,8 @@
                         <a href="javascript:;" class="btn btn-danger btn-del btn-disabled disabled {:$auth->check('wechat_user/del')?'':'hide'}" title="{:__('Delete')}" ><i class="fa fa-trash"></i> {:__('Delete')}</a>
                         <a href="javascript:;" class="btn btn-danger btn-import {:$auth->check('wechat_user/import')?'':'hide'}" title="{:__('Import')}" id="btn-import-file" data-url="ajax/upload" data-mimetype="csv,xls,xlsx" data-multiple="false"><i class="fa fa-upload"></i> {:__('Import')}</a>
 
+                        <a href="./wechat_user/wechat_user_list_init" class="btn btn-primary btn-ajax"><i class="fa fa-refresh"></i> 同步粉丝信息</a>
+
                         <div class="dropdown btn-group {:$auth->check('wechat_user/multi')?'':'hide'}">
                             <a class="btn btn-primary btn-more dropdown-toggle btn-disabled disabled" data-toggle="dropdown"><i class="fa fa-cog"></i> {:__('More')}</a>
                             <ul class="dropdown-menu text-left" role="menu">
