@@ -35,6 +35,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'id', title: 'ID'},
                         {field: 'username', title: __('Username')},
                         {field: 'nickname', title: __('Nickname')},
+                        {field: 'company_text', title: '所属公司'},
                         {field: 'department.full_name', title: '所属部门'},
                         {field: 'groups_text', title: '角色组', operate:false, formatter: Table.api.formatter.label},
                         {field: 'role_text', title: '职责', operate:false},

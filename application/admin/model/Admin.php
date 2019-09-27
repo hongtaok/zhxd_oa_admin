@@ -18,6 +18,7 @@ class Admin extends Model
     protected $append = [
         'role_text',
         'department_name',
+        'company_text',
     ];
 
     /**
@@ -46,8 +47,8 @@ class Admin extends Model
     {
         return [
             1 => '市场部专员',
-            2 => '客户经理-前端',
-            3 => '客户经理-后端',
+            2 => '前端审核',
+            3 => '客户经理',
             4 => '客户部负责人',
             5 => '风控初审',
             6 => '风控中审',
@@ -64,6 +65,21 @@ class Admin extends Model
     {
         $value = $value ? $value : (isset($data['role']) ? $data['role'] : '');
         $list = $this->getRoleList();
+        return isset($list[$value]) ? $list[$value] : '';
+    }
+
+    public function getCompanyList()
+    {
+        return [
+            0 => '太原分公司',
+            1 => '临汾分公司',
+        ];
+    }
+
+    public function getCompanyTextAttr($value, $data)
+    {
+        $value = $value ? $value : (isset($data['company']) ? $data['company'] : '');
+        $list = $this->getCompanyList();
         return isset($list[$value]) ? $list[$value] : '';
     }
 

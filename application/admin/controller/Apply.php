@@ -181,6 +181,23 @@ class Apply extends Backend
 
             $params['upload_evidence_time'] = date('Y-m-d H:i:s', time());
             $params['status'] = 1;
+
+            $auth_info = $this->auth->getUserInfo($this->auth->id);
+            $auth_company = $auth_info['company'];
+
+            $admin_model = new Admin();
+            $front_check = $admin_model->where('company', '=', $auth_company)->where('role', '=', 2)->find();
+
+            // 市场部上传资料后， 通知分公司的前端审核 审核资料
+            if (!empty($front_check) && !empty($front_check->unionid)) {
+                send_system_notice($row->id, '您有新的贷款申请分配已提交审核资料', '您有新的贷款申请分配已提交审核资料，请尽快审核', 0, $front_check->id);
+                $wechat_user_model = new WechatUser();
+                $wechat_user_info = $wechat_user_model->where('unionid', '=', $front_check->unionid)->find();
+                if (!empty($wechat_user_info) && !empty($wechat_user_info->unionid)){
+                    send_wechat_notice($wechat_user_info->unionid, '您有新的贷款申请分配，请尽快上传尽调报告确定初始额度', '贷款申请分配', '已分配');
+                }
+            }
+
             $result = $row->allowField(true)->save($params);
             if ($result !== false) {
                 $this->success('上传成功', '');

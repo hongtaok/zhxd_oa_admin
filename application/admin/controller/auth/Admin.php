@@ -68,6 +68,7 @@ class Admin extends Backend
         }
 
         $this->view->assign('roleList', $this->model->getRoleList());
+        $this->view->assign('companyList', $this->model->getCompanyList());
         $this->view->assign('groupdata', $groupdata);
         $this->assignconfig("admin", ['id' => $this->auth->id]);
     }
