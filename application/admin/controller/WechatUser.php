@@ -19,6 +19,7 @@ class WechatUser extends Backend
      * @var \app\admin\model\WechatUser
      */
     protected $model = null;
+    protected $searchFields = 'openid,unionid';
 
     public function _initialize()
     {

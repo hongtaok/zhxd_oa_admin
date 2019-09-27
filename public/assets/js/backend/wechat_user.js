@@ -16,33 +16,24 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
 
             var table = $("#table");
 
+            $.fn.bootstrapTable.locales[Table.defaults.locale]['formatSearch'] = function(){return "openid/unionid";};
             // 初始化表格
             table.bootstrapTable({
                 url: $.fn.bootstrapTable.defaults.extend.index_url,
                 pk: 'id',
                 sortName: 'id',
+                pageSize:30,
                 columns: [
                     [
-                        {checkbox: true},
                         {field: 'id', title: __('Id')},
-                        {field: 'subscribe', title: __('Subscribe')},
+                        {field: 'nickname', title: '昵称'},
                         {field: 'openid', title: __('Openid')},
-                        {field: 'nickname', title: __('Nickname')},
-                        {field: 'sex', title: __('Sex')},
-                        {field: 'language', title: __('Language')},
-                        {field: 'city', title: __('City')},
-                        {field: 'province', title: __('Province')},
-                        {field: 'country', title: __('Country')},
-                        {field: 'headimgurl', title: __('Headimgurl'), formatter: Table.api.formatter.url},
-                        {field: 'subscribe_time', title: __('Subscribe_time'), operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime},
                         {field: 'unionid', title: __('Unionid')},
-                        {field: 'remark', title: __('Remark')},
-                        {field: 'groupid', title: __('Groupid')},
-                        {field: 'tagid_list', title: __('Tagid_list')},
+                        {field: 'subscribe', title: '是否订阅', searchList:{"0":"否", "1":"是"}, formatter: Table.api.formatter.normal},
+                        {field: 'city', title: '城市'},
+                        {field: 'headimgurl', title:'头像', formatter: Table.api.formatter.url},
+                        {field: 'subscribe_time', title: '关注时间', operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime},
                         {field: 'subscribe_scene', title: __('Subscribe_scene')},
-                        {field: 'qr_scene', title: __('Qr_scene')},
-                        {field: 'qr_scene_str', title: __('Qr_scene_str')},
-                        {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
                     ]
                 ]
             });
