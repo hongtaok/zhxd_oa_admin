@@ -226,13 +226,16 @@ class Mini extends Api
             'product_id' => 'require',
             'city' => 'require',
             'username' => 'require',
-            'mobile' => 'require',
-            'id_number' => 'require',
+            'mobile' => 'require|number|length:11',
+            'id_number' => 'require|length:18',
             'user_id' => 'require'
         ], [
             'product_id.require' => '产品不能为空',
             'id_number.require' => '身份证号不能为空',
             'user_id.require' => '授权信息不能为空',
+            'mobile.number' => '手机号格式错误',
+            'mobile.length' => '手机号格式错误',
+            'id_number.length' => '身份证格式错误',
         ]);
         if (!$validate->check($params)) {
             $this->error($validate->getError());
