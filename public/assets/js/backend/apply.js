@@ -36,6 +36,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'status', title: __('Status'), searchList: {"0":'未审核',"1":'审核中',"2":'审核拒绝',"3":'审核通过'}, formatter: Table.api.formatter.status, custom: {0:'info', 1:'success', 2:'danger', 3:'gray'}},
                         {field: 'apply_time', title: __('Apply_time'), operate:'RANGE', addclass:'datetimerange'},
                         {field: 'upload_evidence_time', title: __('Upload_evidence_time'), operate:'RANGE', addclass:'datetimerange'},
+                        {field: 'front_check_time', title: '前端审核时间', operate:'RANGE', addclass:'datetimerange'},
                         {field: 'allot_time', title: __('Allot_time'), operate:'RANGE', addclass:'datetimerange'},
                         {field: 'report_fund_time', title:'尽调定额时间', operate:'RANGE', addclass:'datetimerange'},
                         {field: 'first_check_time', title: __('First_check_time'), operate:'RANGE', addclass:'datetimerange'},
@@ -75,6 +76,43 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                         }
                                         return true;
                                     }
+                                },
+                                {
+                                    name: 'front_check',
+                                    text: '前端审核',
+                                    title: '前端审核',
+                                    classname: 'btn btn-xs btn-success btn-magic btn-ajax',
+                                    icon: 'fa fa-check-circle-o',
+                                    url: 'apply/front_check',
+                                    confirm: '<div>确认审核通过码?</div>',
+                                    success: function (data, ret) {
+                                        Layer.alert('操作成功');
+                                        location.reload();
+                                        return false;
+                                    },
+                                    error: function (data, ret) {
+                                        console.log(data, ret);
+                                        Layer.alert(ret.msg);
+                                        return false;
+                                    },
+                                    visible: function (row) {
+                                        // 如果审核驳回，则不显示
+                                        if (row.status == 2) {
+                                            return false;
+                                        }
+
+                                        // 如果市场部没有上传资料，则不显示
+                                        if (row.upload_evidence_time == '' || row.upload_evidence_time == null || row.upload_evidence_time == 'undefined') {
+                                            return false;
+                                        }
+
+                                        // 如果已经通过风控初审， 则不显示
+                                        if (row.front_check_time != null) {
+                                            return false;
+                                        }
+                                        return true;
+                                    }
+
                                 },
                                 {
                                     name: 'report_check_fund',

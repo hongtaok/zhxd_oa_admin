@@ -294,6 +294,24 @@ class Apply extends Backend
     }
 
     /**
+     * 前端审核
+     * @param null $ids
+     * @throws \think\exception\DbException
+     */
+    public function front_check($ids = null)
+    {
+        $row = $this->model->get($ids);
+        if ($this->request->isPost())
+        {
+            if ($row->status != 2 && $row->status != 3 && !empty($row->upload_evidence_time)) {
+                $row->front_check_time = date('Y-m-d H:i:s', time());
+                $row->save();
+                $this->success('前端审核通过');
+            }
+        }
+    }
+
+    /**
      * 客户经理上传尽调文件 并给出初始额度
      * @param $ids
      * @return string
