@@ -19,6 +19,9 @@ define(['jquery', 'bootstrap', 'backend', 'form', 'table'], function ($, undefin
             // 初始化表格
             table.bootstrapTable({
                 url: $.fn.bootstrapTable.defaults.extend.index_url,
+                search: false,
+                showToggle: false,
+                showExport: false,
                 sortName: 'id',
                 columns: [
                     [
