@@ -35,13 +35,16 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'id', title: 'ID'},
                         {field: 'username', title: __('Username')},
                         {field: 'nickname', title: __('Nickname')},
-                        {field: 'company_text', title: '所属公司'},
-                        {field: 'department.full_name', title: '所属部门'},
+
+                        {field: 'department_id', title: '所属部门', visible:false, addClass:'selectpage', extend: "data-source='department/index' data-field='name' data-params={'isTree':1}"},
+
+                        {field: 'company_text', title: '所属公司', operate:false},
+                        {field: 'department.full_name', title: '所属部门', operate:false},
                         {field: 'groups_text', title: '角色组', operate:false, formatter: Table.api.formatter.label},
                         {field: 'role_text', title: '职责', operate:false},
-                        {field: 'email', title: __('Email')},
-                        {field: 'status', title: __("Status"), formatter: Table.api.formatter.status},
-                        {field: 'logintime', title: __('Login time'), formatter: Table.api.formatter.datetime, operate: 'RANGE', addclass: 'datetimerange', sortable: true},
+                        {field: 'email', title: __('Email'), operate: false},
+                        {field: 'status', title: __("Status"), operate: false, formatter: Table.api.formatter.status},
+                        {field: 'logintime', title: __('Login time'), formatter: Table.api.formatter.datetime, operate: false, sortable: true},
                         {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: function (value, row, index) {
                                 if(row.id == Config.admin.id){
                                     return '';
