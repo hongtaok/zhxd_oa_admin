@@ -28,8 +28,16 @@ class ApplyNotice extends Model
 
     ];
     
+    public function admin()
+    {
+        return $this->belongsTo('Admin');
+    }
 
-    
+
+    public function user()
+    {
+        return $this->belongsTo('User');
+    }
 
 
 

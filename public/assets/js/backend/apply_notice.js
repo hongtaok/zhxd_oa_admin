@@ -21,13 +21,14 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 url: $.fn.bootstrapTable.defaults.extend.index_url,
                 pk: 'id',
                 sortName: 'id',
+                pageSize: 30,
                 columns: [
                     [
                         {checkbox: true},
                         {field: 'id', title: __('Id')},
                         {field: 'apply_id', title: __('Apply_id')},
-                        {field: 'user_id', title: __('User_id')},
-                        {field: 'admin_id', title: __('Admin_id')},
+                        {field: 'user.username', title: __('User_id')},
+                        {field: 'admin.username', title: __('Admin_id')},
                         {field: 'title', title: __('Title')},
                         {field: 'content', title: __('Content')},
                         {field: 'created_time', title: __('Created_time'), operate:'RANGE', addclass:'datetimerange'},
