@@ -16,7 +16,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
 
             var table = $("#table");
 
-            $.fn.bootstrapTable.locales[Table.defaults.locale]['formatSearch'] = function(){return "产品名称";};
+            // $.fn.bootstrapTable.locales[Table.defaults.locale]['formatSearch'] = function(){return "产品名称";};
             // 初始化表格
             table.bootstrapTable({
                 url: $.fn.bootstrapTable.defaults.extend.index_url,
@@ -25,12 +25,15 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 showToggle: false,
                 showColumns: false,
                 pageSize:25,
+                search:false,
                 columns: [
                     [
                         {field: 'id', title: __('Id')},
-                        {field: 'product.name', title: __('Product_id'), operate:false},
-                        {field: 'user.username', title: __('User_id'), operate:false},
-                        {field: 'admin.username', title: __('Admin_id'), operate:false},
+                        {field: 'product.name', title: '产品名称', formatter:Table.api.formatter.search},
+                        {field: 'user.username', title: __('User_id'), formatter:Table.api.formatter.search},
+                        {field: 'admin.username', title: __('Admin_id'), formatter:Table.api.formatter.search},
+
+                        {field: 'city', title:'城市'},
                         {field: 'first_check_fund', title: __('First_check_fund'), operate:'BETWEEN'},
                         {field: 'final_check_fund', title: __('Final_check_fund'), operate:'BETWEEN'},
                         {field: 'status', title: __('Status'), searchList: {"0":'未审核',"1":'审核中',"2":'审核拒绝',"3":'审核通过'}, formatter: Table.api.formatter.status, custom: {0:'info', 1:'success', 2:'danger', 3:'gray'}},

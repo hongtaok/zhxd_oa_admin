@@ -26,8 +26,7 @@ class Apply extends Backend
      * @var \app\admin\model\Apply
      */
     protected $model = null;
-//    protected $relationSearch = true;
-    protected $searchFields = 'id,name';
+    protected $relationSearch = true;
 
     public function _initialize()
     {
@@ -56,17 +55,13 @@ class Apply extends Backend
             }
 
             $total = $this->model
-                ->with('user')
-                ->with('admin')
-                ->with('product')
+                ->with(['user', 'admin', 'product'])
                 ->where($where)
                 ->order($sort, $order)
                 ->count();
 
             $query = $this->model
-                ->with('user')
-                ->with('admin')
-                ->with('product')
+                ->with(['user', 'admin', 'product'])
                 ->where($where)
                 ->order($sort, $order)
                 ->limit($offset, $limit);

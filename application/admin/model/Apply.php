@@ -8,10 +8,6 @@ use think\Model;
 class Apply extends Model
 {
 
-    
-
-    
-
     // 表名
     protected $name = 'apply';
     
@@ -27,14 +23,11 @@ class Apply extends Model
     protected $append = [
         'status_text'
     ];
-    
 
-    
     public function getStatusList()
     {
         return ['0' => '未审核', '1' => '审核中', '2' => '审核拒绝', '3' => '审核通过'];
     }
-
 
     public function getStatusTextAttr($value, $data)
     {
@@ -45,18 +38,17 @@ class Apply extends Model
 
     public function user()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo('User')->setEagerlyType(0);
     }
 
     public function admin()
     {
-        return $this->belongsTo('Admin');
+        return $this->belongsTo('Admin')->setEagerlyType(0);
     }
 
     public function product()
     {
-        return $this->belongsTo('Product');
+        return $this->belongsTo('Product')->setEagerlyType(0);
     }
-
 
 }
