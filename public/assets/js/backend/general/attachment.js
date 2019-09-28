@@ -23,6 +23,7 @@ define(['jquery', 'bootstrap', 'backend', 'form', 'table'], function ($, undefin
                 showToggle: false,
                 showExport: false,
                 sortName: 'id',
+                pageSize: 30,
                 columns: [
                     [
                         {field: 'state', checkbox: true,},

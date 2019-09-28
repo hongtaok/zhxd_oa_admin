@@ -49,12 +49,14 @@ class Attachment extends Backend
             $total = $this->model
                 ->where($mimetypeQuery)
                 ->where($where)
+                ->where('admin_id', '=', $this->auth->id)
                 ->order($sort, $order)
                 ->count();
 
             $list = $this->model
                 ->where($mimetypeQuery)
                 ->where($where)
+                ->where('admin_id', '=', $this->auth->id)
                 ->order($sort, $order)
                 ->limit($offset, $limit)
                 ->select();
