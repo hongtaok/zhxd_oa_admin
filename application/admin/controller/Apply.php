@@ -328,9 +328,15 @@ class Apply extends Backend
             $validate = new Validate([
                 'first_check_fund' => 'require',
                 'report' => 'require',
+                'yxzl' => 'require',# 影像资料
+                'zcmx' => 'require', # 资产明细
+                'smzl' => 'require', # 扫描资料
             ], [
                 'first_check_fund.require' => '请填写初审额度',
                 'report.require' => '请上传尽调报告',
+                'yxzl.require' => '请上传影像资料',
+                'zcmx.require' => '请上传资产明细',
+                'smzl.require' => '请上传扫描资料',
             ]);
             if (!$validate->check($params)) {
                 $this->error($validate->getError());
@@ -338,6 +344,9 @@ class Apply extends Backend
 
             $row->first_check_fund = $params['first_check_fund'];
             $row->report = $params['report'];
+            $row->yxzl = $params['yxzl'];
+            $row->zcmx = $params['zcmx'];
+            $row->smzl = $params['smzl'];
             $row->report_fund_time = date('Y-m-d H:i:s', time());
             $row->save();
 
