@@ -31,7 +31,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'id', title: __('Id')},
                         {field: 'product.name', title: '产品名称', formatter:Table.api.formatter.search},
                         {field: 'user.username', title: __('User_id'), formatter:Table.api.formatter.search},
-                        {field: 'admin.username', title: __('Admin_id'), formatter:Table.api.formatter.search},
+                        {field: 'admin.username', title: __('Admin_id'), formatter:Table.api.formatter.search, formatter:function (value) {
+                            return value == null ? '未分配' : value;
+                            }},
 
                         {field: 'city', title:'城市'},
                         {field: 'first_check_fund', title: __('First_check_fund'), operate:'BETWEEN'},

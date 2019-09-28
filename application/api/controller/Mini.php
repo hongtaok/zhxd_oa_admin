@@ -276,10 +276,12 @@ class Mini extends Api
             }
 
             // 如果申请人已经分配过客户经理， 则直接把该申请分配到之前的客户经理名下
-            if (!empty($user_info->admin_id)) {
-                $apply_model->admin_id = $user_info['admin_id'];
-                $apply_model->allot_time = datetime(time(), 'Y-m-d H:i:s');
-            }
+//            if (!empty($user_info->admin_id)) {
+//                $apply_model->admin_id = $user_info['admin_id'];
+//                $apply_model->allot_time = datetime(time(), 'Y-m-d H:i:s');
+//            }
+
+
             $apply_model->product_id = $params['product_id'];
             $apply_model->user_id = $user_info->id;
             $apply_model->apply_time = datetime(time(), 'Y-m-d H:i:s');

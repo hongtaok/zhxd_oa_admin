@@ -43,7 +43,7 @@ class Apply extends Model
 
     public function admin()
     {
-        return $this->belongsTo('Admin')->setEagerlyType(0);
+        return $this->belongsTo('Admin')->setEagerlyType(0)->joinType('LEFT');
     }
 
     public function product()

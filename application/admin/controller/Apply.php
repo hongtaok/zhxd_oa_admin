@@ -49,6 +49,7 @@ class Apply extends Backend
 
             $user_info = $this->auth->getUserInfo($this->auth->id);
 
+
             // 如果是客户经理登录， 只显示分配到他名下的申请
             if ($user_info['role'] == 3) {
                 $where = ['admin_id' => $user_info['id']];
@@ -253,13 +254,13 @@ class Apply extends Backend
             $user_model = new User();
             $user_info = $user_model->where('id', $row->user_id)->find();
 
-            if (!empty($user_info['admin_id']) && $user_info->admin_id != $params['admin_id']) {
-                $allot_admin_info = $admin_model->where('id', $user_info->admin_id)->find();
-                $this->error('用户 ' . $user_info->username . ' 已经分配给客户经理' . $allot_admin_info->username);
-            } else {
+//            if (!empty($user_info['admin_id']) && $user_info->admin_id != $params['admin_id']) {
+//                $allot_admin_info = $admin_model->where('id', $user_info->admin_id)->find();
+//                $this->error('用户 ' . $user_info->username . ' 已经分配给客户经理' . $allot_admin_info->username);
+//            } else {
                 $user_info->admin_id = $params['admin_id'];
                 $user_info->save();
-            }
+//            }
 
             $row->save();
 
