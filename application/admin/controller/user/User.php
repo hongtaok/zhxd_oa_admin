@@ -15,6 +15,7 @@ class User extends Backend
     protected $relationSearch = true;
 
     protected $noNeedRight = ['index'];
+    protected $searchFields = ['username', 'nickname'];
     /**
      * @var \app\admin\model\User
      */

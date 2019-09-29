@@ -29,15 +29,9 @@ class Index extends Backend
      */
     public function index()
     {
-
-
-
         //左侧菜单
         list($menulist, $navlist, $fixedmenu, $referermenu) = $this->auth->getSidebar([
-//            'dashboard' => 'hot',
-//            'addon'     => ['new', 'red', 'badge'],
-//            'auth/rule' => __('Menu'),
-//            'general'   => ['new', 'purple'],
+
         ], $this->view->site['fixedpage']);
         $action = $this->request->request('action');
         if ($this->request->isPost()) {
@@ -45,8 +39,6 @@ class Index extends Backend
                 $this->success('', null, ['menulist' => $menulist, 'navlist' => $navlist]);
             }
         }
-
-
 
         $this->view->assign('menulist', $menulist);
         $this->view->assign('navlist', $navlist);

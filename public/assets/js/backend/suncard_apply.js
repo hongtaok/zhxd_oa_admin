@@ -5,12 +5,12 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
             // 初始化表格参数配置
             Table.api.init({
                 extend: {
-                    index_url: 'department/index' + location.search,
-                    add_url: 'department/add',
-                    edit_url: 'department/edit',
-                    del_url: 'department/del',
-                    multi_url: 'department/multi',
-                    table: 'department',
+                    index_url: 'suncard_apply/index' + location.search,
+                    add_url: 'suncard_apply/add',
+                    edit_url: 'suncard_apply/edit',
+                    del_url: 'suncard_apply/del',
+                    multi_url: 'suncard_apply/multi',
+                    table: 'suncard_apply',
                 }
             });
 
@@ -20,21 +20,14 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
             table.bootstrapTable({
                 url: $.fn.bootstrapTable.defaults.extend.index_url,
                 pk: 'id',
-                sortName: 'weigh',
-                escape: false,
-                pagination: false,
-                commonSearch: false,
-                search: false,
-                showToggle: false,
+                sortName: 'id',
                 columns: [
                     [
                         {checkbox: true},
                         {field: 'id', title: __('Id')},
-                        {field: 'name', title: __('Name'), align:'left'},
-                        {field: 'weigh', title: __('Weigh')},
-                        {field: 'manager_names', title: '负责人'},
-                        {field: 'created_at', title: __('Created_at'), operate:'RANGE', addclass:'datetimerange'},
-                        {field: 'updated_at', title: __('Updated_at'), operate:'RANGE', addclass:'datetimerange'},
+                        {field: 'username', title: __('Username')},
+                        {field: 'phone', title: __('Phone')},
+                        {field: 'id_number', title: __('Id_number')},
                         {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
                     ]
                 ]

@@ -16,6 +16,8 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
 
             var table = $("#table");
 
+            $.fn.bootstrapTable.locales[Table.defaults.locale]['formatSearch'] = function(){return "昵称/姓名";};
+
             // 初始化表格
             table.bootstrapTable({
                 url: $.fn.bootstrapTable.defaults.extend.index_url,
