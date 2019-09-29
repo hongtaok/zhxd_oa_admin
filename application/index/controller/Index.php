@@ -34,7 +34,8 @@ class Index extends Frontend
 
             $data['username'] = $this->request->request('username');
             $data['phone'] = $this->request->request('phone');
-            $data['id_number'] = $this->request->request('id_number');
+//            $data['id_number'] = $this->request->request('id_number');
+            $data['address'] = $this->request->request('address');
             $data['captcha'] = $this->request->request('captcha');
             $agree = $this->request->request('agree');
 
