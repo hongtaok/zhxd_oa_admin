@@ -10,6 +10,7 @@ class ArticleCategory extends Backend
 
     protected $model = null;
     protected $category_list = [];
+    protected $searchFields = ['name'];
 
     public function _initialize()
     {

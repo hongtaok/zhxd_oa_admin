@@ -18,6 +18,8 @@ class Evidence extends Backend
      */
     protected $model = null;
 
+    protected $searchFields = ['name'];
+
     public function _initialize()
     {
         parent::_initialize();

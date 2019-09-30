@@ -16,11 +16,17 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
 
             var table = $("#table");
 
+            $.fn.bootstrapTable.locales[Table.defaults.locale]['formatSearch'] = function () {
+                return '文章标题';
+            }
+
             // 初始化表格
             table.bootstrapTable({
                 url: $.fn.bootstrapTable.defaults.extend.index_url,
                 pk: 'id',
                 sortName: 'id',
+                showToggle: false,
+                pageSize: 30,
                 columns: [
                     [
                         {checkbox: true},
