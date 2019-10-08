@@ -15,7 +15,7 @@ class Index extends Frontend
 
     public function index()
     {
-        $this->redirect('index/apply');
+        $this->redirect('index/apply?from=1');
     }
 
     public function news()
@@ -28,8 +28,6 @@ class Index extends Frontend
     public function apply()
     {
 
-
-
         if ($this->request->isPost()) {
 
             $data['username'] = $this->request->request('username');
@@ -39,8 +37,14 @@ class Index extends Frontend
             $data['captcha'] = $this->request->request('captcha');
             $agree = $this->request->request('agree');
 
+            $from = $this->request->param('from');
+            if (empty($from)) {
+                $from = 1;
+            }
+            $data['from_type'] = $from;
+
             if ($agree != 'on') {
-                $this->error('请仔细阅读服务协议!', 'index/apply');
+                $this->error('请仔细阅读服务协议!', 'index/apply?from=' . $from);
             }
 
             $rules = [
@@ -57,12 +61,12 @@ class Index extends Frontend
 
             $validate = new Validate($rules, $msg);
             if (!$validate->check($data)) {
-                $this->error($validate->getError(), 'index/apply');
+                $this->error($validate->getError(), 'index/apply?from=' . $from);
             }
             unset($data['captcha']);
             Db::table('oa_suncard_apply')->insert($data);
 
-            $this->redirect('index/message');
+            $this->redirect('index/message?from=' . $from);
         }
 
         return $this->view->fetch();
@@ -70,6 +74,9 @@ class Index extends Frontend
 
     public function message()
     {
+        $from = $this->request->param('from');
+
+        $this->view->assign('from', $from);
         return $this->view->fetch();
     }
 }

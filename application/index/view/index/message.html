@@ -32,6 +32,7 @@
     <p>客服电话:&nbsp;0351-7226616</p>
 </div>
 <div class="content">
+    {if $from == 1}
     <div clas="clear" style="width:100%;">
         <div>
             <img  src="/images/qr1.jpg"/>
@@ -40,6 +41,15 @@
             <img  src="/images/qr2.png"/>
         </div>
     </div>
+    {/if}
+
+    {if $from == 2}
+    <div clas="clear" style="width:100%;">
+        <div>
+            <img  src="/images/qr3.jpg"/>
+        </div>
+    </div>
+    {/if}
 
     <p>想了解更多信息</p>
     <p>长按二维码关注公众号</p>
