@@ -27,16 +27,17 @@ class ApplyNotice extends Model
     protected $append = [
 
     ];
-    
+
+
     public function admin()
     {
-        return $this->belongsTo('Admin');
+        return $this->belongsTo('Admin')->setEagerlyType(0)->joinType('left');
     }
 
 
     public function user()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo('User')->setEagerlyType(0)->joinType('left');
     }
 
 

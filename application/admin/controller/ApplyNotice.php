@@ -17,6 +17,8 @@ class ApplyNotice extends Backend
      * @var \app\admin\model\ApplyNotice
      */
     protected $model = null;
+    protected $searchFields = ['apply_id', 'admin.username', 'admin.username'];
+    protected $relationSearch = true;
 
     public function _initialize()
     {
@@ -35,14 +37,16 @@ class ApplyNotice extends Backend
                 return $this->selectpage();
             }
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
+
+
             $total = $this->model
+                ->with(['admin', 'user'])
                 ->where($where)
                 ->order($sort, $order)
                 ->count();
 
             $list = $this->model
-                ->with('admin')
-                ->with('user')
+                ->with(['admin', 'user'], 'left')
                 ->where($where)
                 ->order($sort, $order)
                 ->limit($offset, $limit)
