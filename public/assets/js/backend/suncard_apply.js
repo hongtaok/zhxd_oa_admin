@@ -34,6 +34,8 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'username', title: __('Username')},
                         {field: 'phone', title: __('Phone')},
                         {field: 'address', title: '地址'},
+                        {field: 'from_type_text', title: '来源'},
+                        {field: 'created_at', title: '申请时间'},
                         {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
                     ]
                 ]
