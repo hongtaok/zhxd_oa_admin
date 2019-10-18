@@ -306,6 +306,8 @@ class Mini extends Api
         $params['bank_front_image'] = $this->request->request('bank_front_image');
         $params['bank_back_image'] = $this->request->request('bank_back_image');
 
+
+
         $validate = new Validate([
             'username' => 'require',
             'mobile' => 'require|number',
@@ -327,7 +329,9 @@ class Mini extends Api
 
         $user_info = $this->check_auth();
 
-        $data = $this->request->domain() . '?pid=' . $user_info->id;
+        $data = $this->request->domain() . '?pid=' . $user_info->id . '&port=c';
+
+        Log::write(['url' => $data]);
 
         $outfile = ROOT_PATH . 'public' . '/qrcode/' . $user_info->id . '_' .  time() . '.jpg';
 
@@ -454,13 +458,17 @@ class Mini extends Api
         $data['avatar'] = $this->request->request('avatar');
         $pid = $this->request->request('pid');
 
-//        $admin_id = 0;
-//        $port = $this->request->request('port');
-//        if (!empty($port) && $port == 'b') {
-//            $admin_id = $pid;
-//        }
-//
-//        Log::write(['data' => $data, 'admin_id' => $admin_id]);
+        $admin_id = 0;
+        $port = $this->request->request('port');
+
+
+
+        if (!empty($port) && $port == 'b') {
+            $admin_id = $pid;
+        }
+
+        Log::write(['$pid' => $pid, '$port' => $port, 'data' => $data, 'admin_id' => $admin_id]);
+
 
 
         $validate = new Validate([
@@ -491,16 +499,16 @@ class Mini extends Api
                 $user_model->unionid = $unionid;
             }
 
-//            Log::write(['is_true' => !empty($pid) && empty($admin_id)]);
+            Log::write(['is_true' => !empty($pid) && empty($admin_id)]);
 
             if (!empty($pid)) {
                 $user_model->pid = $pid;
             }
 
             // b端推广扫码
-//            if (!empty($admin_id)) {
-//                $user_model->admin_id = $admin_id;
-//            }
+            if (!empty($admin_id)) {
+                $user_model->admin_id = $admin_id;
+            }
 
             $user_model->save();
             $user_id = $user_model->getLastInsID();
