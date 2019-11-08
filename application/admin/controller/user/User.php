@@ -2,7 +2,9 @@
 
 namespace app\admin\controller\user;
 
+use app\admin\model\WithdrawRecord;
 use app\common\controller\Backend;
+use fast\Date;
 
 /**
  * 会员管理
@@ -46,12 +48,13 @@ class User extends Backend
                 ->order($sort, $order)
                 ->count();
             $list = $this->model
-                ->with('group')
+                ->with(['group', 'withdrawRecords'])
                 ->where($where)
                 ->order($sort, $order)
                 ->limit($offset, $limit)
                 ->select();
             foreach ($list as $k => $v) {
+                $v['team'] = $v->team();
                 $v->hidden(['password', 'salt']);
             }
             $result = array("total" => $total, "rows" => $list);
@@ -71,6 +74,60 @@ class User extends Backend
             $this->error(__('No Results were found'));
         $this->view->assign('groupList', build_select('row[group_id]', \app\admin\model\UserGroup::column('id,name'), $row['group_id'], ['class' => 'form-control selectpicker']));
         return parent::edit($ids);
+    }
+
+    public function withdraw($ids)
+    {
+        $row = $this->model->get($ids);
+        $row->team = $row->team();
+        if ($this->request->isPost()) {
+            $amount = $this->request->request('amount');
+
+            // 提现金额不能为空
+            if (empty($amount) || $amount <= 0) {
+                $this->error('请输入提现金额');
+            }
+
+            // 提现金额不能大于总业绩
+            if ($amount > $row->income_total) {
+                $this->error('提现金额不能大于总业绩');
+            }
+
+            // 总业绩不能小于0
+            if ($row->income_total <= 0) {
+                $this->error('用户业绩小于0, 无法提现');
+            }
+
+            // 剩余可提现金额不能小于0
+            if ($row->withdraw_balance <= 0) {
+                $this->error('用户剩余可提现金额小于0，无法提现');
+            }
+
+            // 提现金额不能大于剩余可提现金额
+            if ($amount > $row->withdraw_balance) {
+                $this->error('提现金额不可大于用户的剩余可提现金额');
+            }
+
+            $record_data = [
+                'amount' => $amount,
+                'admin_id' => $this->auth->id,
+                'user_id' => $row->id,
+                'before_amount' => $row->withdraw_balance,
+                'after_amount' => $row->withdraw_balance - $amount,
+                'record_time' => datetime(time()),
+            ];
+
+            $withdraw_model = new WithdrawRecord();
+            $res = $withdraw_model->save($record_data);
+            if ($res) {
+                $this->success('提现成功');
+            } else {
+                $this->error('提现失败');
+            }
+        }
+
+        $this->view->assign('row', $row);
+        return $this->view->fetch();
     }
 
 }

@@ -21,7 +21,21 @@ class User extends Model
 //        'prevtime_text',
 //        'logintime_text',
 //        'jointime_text',
+
+        'parent',
+        'income_total',
+        'withdraw_total',
+        'withdraw_balance',
     ];
+
+
+    public function getParentAttr()
+    {
+        $user_model = new User();
+        $parent = $user_model->where('id', '=', $this->pid)->find();
+
+        return $parent;
+    }
 
     public function getOriginData()
     {
@@ -157,6 +171,35 @@ class User extends Model
 
         $data = ['total' => $user_team_total, 'income_total' => $first_income + $second_income, 'first_total' => $first_total, 'second_total' => $second_total, 'first' => $user_team_first, 'second' => $user_team_second];
         return $data;
+    }
+
+    // 用户总业绩
+    public function getIncomeTotalAttr()
+    {
+        $team = $this->team();
+        return $income_total = $team['income_total'];
+    }
+
+    // 提现记录
+    public function withdrawRecords()
+    {
+        return $this->hasMany('WithdrawRecord');
+    }
+
+    // 总提现金额
+    public function getWithdrawTotalAttr()
+    {
+        $withdraw_model = new WithdrawRecord();
+
+        return $withdraw_model->where('user_id', '=', $this->id)->sum('amount');
+    }
+
+    // 剩余可提现金额
+    public function getWithdrawBalanceAttr()
+    {
+        $income_total = $this->getIncomeTotalAttr();
+        $withdraw_total = $this->getWithdrawTotalAttr();
+        return $withdraw_balance = $income_total - $withdraw_total;
     }
 
 }

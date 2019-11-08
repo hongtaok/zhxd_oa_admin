@@ -32,7 +32,47 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'mobile', title: __('Mobile'), operate: 'LIKE'},
                         {field: 'avatar', title: __('Avatar'), events: Table.api.events.image, formatter: Table.api.formatter.image, operate: false},
                         {field: 'openid', title:__('Openid')},
-                        {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
+                        {field: 'parent.username', title: '上级'},
+
+                        {field: 'team.total', title: '团队总人数'},
+                        {field: 'team.first_total', title: '一级人数'},
+                        {field: 'team.second_total', title: '二级人数'},
+                        {field: 'income_total', title: '总业绩'},
+                        {field: 'withdraw_total', title: '已提现金额'},
+                        {field: 'withdraw_balance', title: '剩余可提现金额'},
+
+                        // {field: 'bank_card', title: '银行卡号', operate: false},
+                        // {field: 'bank_name', title: '开户行', operate: false},
+                        //
+                        // {field: 'bank_front_image', title: '银行卡正面', events: Table.api.events.image, formatter: Table.api.formatter.image,operate: false},
+                        // {field: 'bank_back_image', title: '银行卡背面', events: Table.api.events.image, formatter: Table.api.formatter.image,operate: false},
+
+                        {
+                            field: 'operate',
+                            title: __('Operate'),
+                            table: table, events: Table.api.events.operate,
+                            formatter: Table.api.formatter.operate,
+                            buttons: [
+                                {
+                                    name: 'withdraw',
+                                    text: '提现',
+                                    title: '提现',
+                                    classname: 'btn btn-xs btn-primary btn-dialog',
+                                    icon: 'fa fa-money',
+                                    url: 'user/user/withdraw',
+                                    visible: function (row) {
+                                        if (row.income_total <= 0) {
+                                            return false;
+                                        }
+
+                                        if (row.withdraw_balance <= 0) {
+                                            return false;
+                                        }
+                                        return true;
+                                    }
+                                }
+                            ]
+                        }
                     ]
                 ]
             });
