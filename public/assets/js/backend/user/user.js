@@ -41,11 +41,10 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'withdraw_total', title: '已提现金额'},
                         {field: 'withdraw_balance', title: '剩余可提现金额'},
 
-                        // {field: 'bank_card', title: '银行卡号', operate: false},
-                        // {field: 'bank_name', title: '开户行', operate: false},
-                        //
-                        // {field: 'bank_front_image', title: '银行卡正面', events: Table.api.events.image, formatter: Table.api.formatter.image,operate: false},
-                        // {field: 'bank_back_image', title: '银行卡背面', events: Table.api.events.image, formatter: Table.api.formatter.image,operate: false},
+                        {field: 'bank_card', title: '银行卡号', operate: false},
+                        {field: 'bank_name', title: '开户行', operate: false},
+                        {field: 'bank_front_image', title: '银行卡正面', events: Table.api.events.image, formatter: Table.api.formatter.image,operate: false},
+                        {field: 'bank_back_image', title: '银行卡背面', events: Table.api.events.image, formatter: Table.api.formatter.image,operate: false},
 
                         {
                             field: 'operate',
