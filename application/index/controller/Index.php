@@ -18,6 +18,14 @@ class Index extends Frontend
         $this->redirect('index/apply?from=1');
     }
 
+    public function login()
+    {
+        header('Access-Control-Allow-Origin: *');
+        header("Access-Control-Allow-Headers: token,Origin, X-Requested-With, Content-Type, Accept");
+        header('Access-Control-Allow-Methods: POST,GET');
+        return json(123);
+    }
+
     public function news()
     {
         $this->redirect('index/apply');

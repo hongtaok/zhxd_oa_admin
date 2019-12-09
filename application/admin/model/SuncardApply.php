@@ -30,7 +30,7 @@ class SuncardApply extends Model
 
     public function getFromTypeList()
     {
-        return ['1' => '中汇鑫德', '2' => '尧商行', '3' => '公众号', '4' => '商户'];
+        return ['1' => '中汇鑫德', '2' => '尧商行', '3' => '公众号', '4' => '商户', '5' => '大宁'];
     }
 
     public function getFromTypeTextAttr($value, $data)
